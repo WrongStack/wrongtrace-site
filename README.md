@@ -20,8 +20,8 @@ No other runtime dependencies. Fonts are self-hosted through `next/font`
 
 ## Getting started
 
-The project targets Node 24, pinned in `.nvmrc` so a local run matches what CI
-builds on.
+The project targets Node 24, pinned in `.nvmrc`. CI reads that same file, so a
+local run and the hosted build cannot drift apart unnoticed.
 
 ```powershell
 nvm use               # reads .nvmrc
@@ -51,7 +51,8 @@ npm start            # serve the production build
 ```
 
 The first three also run on every push and pull request, in
-`.github/workflows/ci.yml`, against a clean `npm ci` on Node 24.
+`.github/workflows/ci.yml`, against a clean `npm ci` on the Node version
+pinned in `.nvmrc`.
 
 ## Where things live
 

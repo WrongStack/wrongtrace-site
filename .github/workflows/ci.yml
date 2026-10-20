@@ -28,7 +28,9 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          # Read the same .nvmrc a contributor uses locally, so the two
+          # cannot drift apart unnoticed.
+          node-version-file: ".nvmrc"
           cache: npm
 
       - name: Install dependencies
