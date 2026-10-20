@@ -1,8 +1,9 @@
 # WrongTrace — website
 
 Marketing site for [WrongTrace](https://github.com/wrongstack/wrongtrace), the
-AI-native code churn and agent observability daemon. One route, prerendered as
-static HTML, with the copy, data and design tokens separated from the markup.
+AI-native code churn and agent observability daemon. A landing page and a
+`/docs` section, prerendered as static HTML, with the copy, data and design
+tokens separated from the markup.
 
 ## Stack
 
@@ -45,6 +46,9 @@ npm run build        # next build
 npm start            # serve the production build
 ```
 
+The first three also run on every push and pull request, in
+`.github/workflows/ci.yml`, against a clean `npm ci` on Node 24.
+
 ## Where things live
 
 | Path | Purpose |
@@ -58,6 +62,8 @@ npm start            # serve the production build
 | `src/app/sitemap.ts` | `/sitemap.xml` |
 | `src/app/robots.ts` | `/robots.txt` |
 | `src/app/fonts/` | Static TTFs used by the OG renderer (satori cannot read woff2) |
+| `src/app/docs/` | The documentation route and its section pages |
+| `src/lib/docs.ts` | The documentation content model |
 | `src/lib/site.ts` | The canonical site origin |
 | `src/lib/content.ts` | Every word, number and code sample on the site |
 | `src/lib/motion.ts` | Shared motion tokens and variants |
@@ -65,6 +71,7 @@ npm start            # serve the production build
 | `src/components/primitives.tsx` | `Section`, `Container`, `SectionHead`, `Action` |
 | `src/components/icons/index.tsx` | The hand-drawn SVG icon family |
 | `src/components/dashboard-*` | The interactive dashboard mock |
+| `.github/workflows/ci.yml` | Typecheck, lint and build on every push and pull request |
 
 ### Changing the copy
 
