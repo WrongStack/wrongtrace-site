@@ -1,0 +1,7 @@
+# Normalise text files: store LF in the repository, check out LF everywhere.
+# `text=auto` lets git detect binaries itself, so this never applies to them.
+* text=auto eol=lf
+
+# Binary assets: never line-ending converted, never diffed.
+*.png binary
+*.ttf binary
