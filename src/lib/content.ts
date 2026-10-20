@@ -33,6 +33,7 @@ export const nav = [
   { label: "How it works", href: "#pipeline" },
   { label: "Configure", href: "#config" },
   { label: "FAQ", href: "#faq" },
+  { label: "Docs", href: "/docs" },
 ] as const;
 
 /* -------------------------------------------------------------------------- */
@@ -457,6 +458,7 @@ export const footer = {
         { label: "Dashboard", href: "#dashboard" },
         { label: "Configuration", href: "#config" },
         { label: "Get started", href: "#install" },
+        { label: "Documentation", href: "/docs" },
       ],
     },
     {
@@ -579,4 +581,54 @@ export const sampleLineageSymbol = {
   symbol: "NodeDelta",
   kind: "func",
 } as const;
+
+/* -------------------------------------------------------------------------- */
+/* Documentation — facts taken from the WrongTrace README                      */
+/* -------------------------------------------------------------------------- */
+
+export const cliCommands = [
+  { command: "wrongtrace start", description: "Run the observer daemon, file watcher, OTLP endpoint and embedded dashboard." },
+  { command: "wrongtrace init", description: "Initialize agent rules (CLAUDE.md, AGENTS.md), .mcp.json and git hooks." },
+  { command: "wrongtrace doctor", description: "Run diagnostics on SQLite, IPC, agent logs and Tree-sitter parsers." },
+  { command: "wrongtrace mcp", description: "Serve the Model Context Protocol over stdio for MCP clients." },
+  { command: "wrongtrace trace", description: "Execute a command or test, measure runtime latency, record profiler telemetry." },
+  { command: "wrongtrace hook", description: "Install or remove git hooks for automated telemetry and churn tracking." },
+  { command: "wrongtrace export", description: "Export telemetry and code churn records to JSON." },
+  { command: "wrongtrace report", description: "Generate an executive Markdown, HTML or JSON observability report." },
+  { command: "wrongtrace status", description: "Print a summary of the database path, monitored repo, totals and active models." },
+] as const;
+
+export const mcpTools = [
+  { tool: "check_guardrail", description: "Check whether a file is safe to modify before an automated refactor touches it." },
+  { tool: "get_file_health_score", description: "Return a 0-100 health score, fragility status and recent thrash events." },
+  { tool: "report_telemetry", description: "Record run intent, model name, token usage and cost." },
+  { tool: "lock_file", description: "Lock a fragile file against concurrent rewrites." },
+  { tool: "unlock_file", description: "Release a lock once the work is complete." },
+  { tool: "list_locks", description: "List active, unexpired guardrail locks with their TTL and owner." },
+  { tool: "report_file_read", description: "Record file reading activity with its line range and token consumption." },
+  { tool: "get_file_read_stats", description: "Query aggregate read counts, unique models and cost per file." },
+  { tool: "get_file_diff_history", description: "Retrieve recent AST mutation history for a file, or repo-wide when omitted." },
+] as const;
+
+export const dashboardViews = [
+  { view: "Overview", description: "Churn timeline, Net LOC delta, spend versus waste, thrashing alerts and a live event stream." },
+  { view: "Inter-Agent Friction", description: "Collision heatmap, who broke whose code, time delta and overwrite diffs." },
+  { view: "Model Intelligence", description: "Quality tiers, 14-day code survival rate, true token ROI and the context read matrix." },
+  { view: "Code Atlas", description: "Full-screen AST graph with auto-centering, orbit/tree/grid layouts and a file lifetime timeline." },
+  { view: "Diffs & Changes", description: "Rich diff inspector with syntax highlighting and added/deleted line statistics." },
+  { view: "Symbol Lineage", description: "Chronological revision timeline for any AST node, with author model attribution." },
+  { view: "Agent Sessions & Catalog", description: "Multi-agent session monitor, model pricing registry and an interactive cost simulator." },
+  { view: "Profiler & Runtime Traces", description: "OpenTelemetry ingest, P50/P90/P99 latency percentiles and hotspot analysis." },
+  { view: "AI Gateway & Wire Traffic", description: "Transparent proxy for LLM APIs, token composition, budget quotas and cache savings." },
+  { view: "Settings & Governance", description: "Workspace management, retention pruning, guardrail file locking and webhooks." },
+] as const;
+
+export const mcpConfigSnippet = `{
+  "mcpServers": {
+    "wrongtrace": {
+      "command": "wrongtrace",
+      "args": ["mcp"]
+    }
+  }
+}`;
 

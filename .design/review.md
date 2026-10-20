@@ -210,6 +210,41 @@ working, not a broken asset. Screenshots were captured at each width and
 analysed for colour variety and ink coverage (4555 and 3863 distinct colours)
 to confirm the frames contain rendered content.
 
+### Documentation route
+
+`/docs` is a static index plus five prerendered section pages under
+`/docs/[slug]`, sharing a layout with a sticky section list on the left. The
+structure mirrors the reference documentation sites: a quickstart first, then
+the reference material, with every page reachable from the index and from the
+sidebar.
+
+Sections: Getting started, CLI reference, MCP server, Configuration, Dashboard
+views. Every fact is taken from the WrongTrace README.
+
+| Check | Result |
+|---|---|
+| `/docs`, and all five section pages | 200 |
+| `/docs/nope` | 404 (unknown slugs hit the not-found page) |
+| Sidebar present on every page | yes, five links, grouped "Start here" / "Reference" |
+| Current page marked | `aria-current="page"` on the active section link |
+| Header links to `/docs` | yes, in both the desktop nav and the mobile menu |
+| Header section anchors on a docs page | resolved to `/#capabilities` etc., not bare `#capabilities` |
+| Per-page `<title>` | "Getting started — WrongTrace", "Configuration — WrongTrace", … |
+| Horizontal scroll at 1440 / 390 | none / none |
+| Contrast failures at 1440 / 390 | 0 / 0 |
+| Sub-24px targets | 1 — the visually hidden skip link |
+| JavaScript console errors | none |
+
+One real defect was caught and fixed: at 390px the docs page scrolled
+horizontally (500px content in a 390px viewport). The sidebar's horizontally
+scrollable link row was stretching its grid column, because grid items default
+to `min-width: auto`. Fixed with `min-w-0` on the aside and the sidebar, after
+which the row scrolls inside its own container.
+
+The primary header nav moved from `md` to `lg` so the six items (including
+Docs) fit without crowding at 768px; below that the menu button carries the
+same links.
+
 ## Known gaps
 
 These were **not** verified and are stated rather than implied:

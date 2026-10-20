@@ -38,7 +38,8 @@ export function SiteFooter() {
                   <ul className="mt-4 list-none space-y-3 p-0">
                     {column.links.map((link) => (
                       <li key={link.href}>
-                        {link.href.startsWith("#") ? (
+                        {link.href.startsWith("#") ||
+                        link.href.startsWith("/") ? (
                           <Link href={link.href} className={linkClass}>
                             {link.label}
                           </Link>

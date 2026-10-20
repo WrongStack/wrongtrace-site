@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { IconChevronDown, IconGithub } from "@/components/icons";
@@ -11,6 +12,17 @@ import { nav, product } from "@/lib/content";
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  /**
+   * Section links point at the home page. On any other route they need the
+   * leading slash, or the browser would look for "#capabilities" on /docs.
+   */
+  function resolve(href: string) {
+    if (href.startsWith("/")) return href;
+    if (href.startsWith("#") && pathname !== "/") return `/${href}`;
+    return href;
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -37,11 +49,11 @@ export function SiteHeader() {
           {product.name}
         </Link>
 
-        <nav aria-label="Primary" className="ml-6 hidden items-center gap-1 md:flex">
+        <nav aria-label="Primary" className="ml-6 hidden items-center gap-1 lg:flex">
           {nav.map((item) => (
             <Link
               key={item.href}
-              href={item.href}
+              href={resolve(item.href)}
               className="rounded-md px-3 py-2 text-sm text-muted transition-colors duration-150 hover:text-fg"
             >
               {item.label}
@@ -66,7 +78,7 @@ export function SiteHeader() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="inline-flex size-9 items-center justify-center rounded-md border border-line text-muted transition-colors duration-150 hover:border-line-strong hover:text-fg md:hidden"
+            className="inline-flex size-9 items-center justify-center rounded-md border border-line text-muted transition-colors duration-150 hover:border-line-strong hover:text-fg lg:hidden"
           >
             <IconChevronDown
               size={18}
@@ -80,13 +92,13 @@ export function SiteHeader() {
         <nav
           id="mobile-nav"
           aria-label="Primary mobile"
-          className="border-t border-line bg-bg md:hidden"
+          className="border-t border-line bg-bg lg:hidden"
         >
           <Container className="flex flex-col py-2">
             {nav.map((item) => (
               <Link
                 key={item.href}
-                href={item.href}
+                href={resolve(item.href)}
                 onClick={() => setOpen(false)}
                 className="rounded-md px-3 py-3 text-sm text-muted transition-colors duration-150 hover:bg-raised hover:text-fg"
               >

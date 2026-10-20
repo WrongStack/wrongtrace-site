@@ -105,6 +105,7 @@ performed:
 | `9` | MCP tools exposed | "Available MCP Tools" — nine tools listed |
 | `10` | dashboard views | "Dashboard Views" — ten rows |
 | `14-day` | code survival-rate window | "Model Intelligence & True Token ROI Matrix … 14-day code survival rate %" |
+| `0-100` | file health score range | README, "Available MCP Tools" — `get_file_health_score` returns a 0-100 health score, an upstream capability description rather than a measurement |
 | `2030-01-01` | BUSL-1.1 → Apache-2.0 conversion | "License & Commercial Terms" |
 | `0.3.17` | current version | README version badge |
 
