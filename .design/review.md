@@ -245,6 +245,21 @@ The primary header nav moved from `md` to `lg` so the six items (including
 Docs) fit without crowding at 768px; below that the menu button carries the
 same links.
 
+### Anchor resolution
+
+Section links in the header and the footer point at the home page. A bare
+`#capabilities` resolves against the *current* path, so from `/docs` it looked
+for an anchor on the docs page and found nothing — a dead link on every
+non-home route. Both now resolve through a shared `resolveHref(href, pathname)`
+helper in `src/lib/links.ts`, which prefixes section anchors with `/` off the
+home page and leaves them alone on it. The footer link list became a small
+client component (`FooterLinks`) to read the current path; the rest of the
+footer stays server-rendered.
+
+Checked on `/`, `/docs`, `/docs/quickstart`, `/docs/config` and the 404 page:
+the header and the footer emit bare `#anchor` on `/` and `/#anchor`
+everywhere else, with no bare anchor left on any non-home route.
+
 ## Known gaps
 
 These were **not** verified and are stated rather than implied:

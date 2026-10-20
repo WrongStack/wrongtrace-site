@@ -8,6 +8,7 @@ import { IconChevronDown, IconGithub } from "@/components/icons";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Container } from "@/components/primitives";
 import { nav, product } from "@/lib/content";
+import { resolveHref } from "@/lib/links";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -19,9 +20,7 @@ export function SiteHeader() {
    * leading slash, or the browser would look for "#capabilities" on /docs.
    */
   function resolve(href: string) {
-    if (href.startsWith("/")) return href;
-    if (href.startsWith("#") && pathname !== "/") return `/${href}`;
-    return href;
+    return resolveHref(href, pathname);
   }
 
   useEffect(() => {

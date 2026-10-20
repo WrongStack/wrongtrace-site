@@ -1,11 +1,7 @@
-import Link from "next/link";
-
+import { FooterLinks } from "@/components/footer-links";
 import { IconGithub } from "@/components/icons";
 import { Container } from "@/components/primitives";
 import { footer, product } from "@/lib/content";
-
-const linkClass =
-  "inline-block py-1 text-sm text-muted transition-colors duration-150 hover:text-fg";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -35,27 +31,7 @@ export function SiteFooter() {
                   <p className="font-mono text-[11px] tracking-[0.2em] text-faint uppercase">
                     {column.title}
                   </p>
-                  <ul className="mt-4 list-none space-y-3 p-0">
-                    {column.links.map((link) => (
-                      <li key={link.href}>
-                        {link.href.startsWith("#") ||
-                        link.href.startsWith("/") ? (
-                          <Link href={link.href} className={linkClass}>
-                            {link.label}
-                          </Link>
-                        ) : (
-                          <a
-                            href={link.href}
-                            target="_blank"
-                            rel="noreferrer noopener"
-                            className={linkClass}
-                          >
-                            {link.label}
-                          </a>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
+                  <FooterLinks links={column.links} />
                 </div>
               ))}
             </div>
