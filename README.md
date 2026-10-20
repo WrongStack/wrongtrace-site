@@ -20,7 +20,11 @@ No other runtime dependencies. Fonts are self-hosted through `next/font`
 
 ## Getting started
 
+The project targets Node 24, pinned in `.nvmrc` so a local run matches what CI
+builds on.
+
 ```powershell
+nvm use               # reads .nvmrc
 npm install
 npm run dev          # http://localhost:3000
 ```
