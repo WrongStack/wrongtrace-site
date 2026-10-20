@@ -41,13 +41,14 @@ export const nav = [
 /* -------------------------------------------------------------------------- */
 
 export const hero = {
+  kicker: "Pure Go · v0.3.17 · BUSL-1.1",
   eyebrow: "AI-NATIVE CODE CHURN & AGENT OBSERVABILITY",
   headline: ["See what your agent", "actually changed."],
   lede: "WrongTrace watches your repository with Tree-sitter, correlates AST-level edits with the tool calls that caused them, and serves the whole picture from one Go binary — no database to run, no sidecar to wire up.",
   chips: [
-    { label: "Single Go binary", value: "No sidecar" },
-    { label: "Local SQLite store", value: "Nothing to host" },
-    { label: "BUSL-1.1", value: "Open source 2030" },
+    { index: "01", label: "Single Go binary" },
+    { index: "02", label: "No database to run" },
+    { index: "03", label: "AST diffing, not text diffing" },
   ],
   primaryCta: { label: "Start the daemon", href: "#install" },
   secondaryCta: { label: "Read the source", href: product.repo },
@@ -58,7 +59,7 @@ export const hero = {
 /* -------------------------------------------------------------------------- */
 
 export const problem = {
-  label: "01 / THE PROBLEM",
+  label: "02 · THE PROBLEM",
   headline: ["Your agent edited", "forty files."],
   sub: "And the log tells you what it said, not what it did.",
   points: [
@@ -82,13 +83,13 @@ export const problem = {
 /* -------------------------------------------------------------------------- */
 
 export const capabilitiesHead = {
-  label: "02 / WHAT IT DOES",
+  label: "04 · CAPABILITIES",
   headline: ["Six things it does", "that a log never will."],
   sub: "Every capability below answers a question you currently answer by scrolling back through terminal output.",
 } as const;
 
 export const pipelineHead = {
-  label: "04 / HOW IT WORKS",
+  label: "06 · HOW IT WORKS",
   headline: ["Four steps,", "one binary."],
   sub: "From the moment an agent writes a file to the moment the mutation lands on your timeline — no pipeline to assemble, no agent to configure.",
 } as const;
@@ -295,7 +296,7 @@ export const sampleTimeline: SampleTimelineEntry[] = [
 ];
 
 export const dashboard = {
-  label: "03 / THE DASHBOARD",
+  label: "05 · THE DASHBOARD",
   headline: ["One view of what", "the agents did."],
   sub: "Ten views ship inside the binary. The dashboard is served by the daemon itself — there is no second service to deploy and no browser extension to install.",
   disclaimer: "SAMPLE DATA — illustrative figures for a representative session.",
@@ -313,7 +314,7 @@ export const dashboardTabs = [
 /* -------------------------------------------------------------------------- */
 
 export const runModes = {
-  label: "05 / TWO WAYS TO RUN",
+  label: "09 · TWO WAYS TO RUN",
   headline: ["Daemon, or MCP", "server."],
   sub: "The same binary does both. Run the observer as a background service, or let your agent talk to it directly over stdio.",
   modes: [
@@ -353,7 +354,7 @@ export const runModes = {
 /* -------------------------------------------------------------------------- */
 
 export const config = {
-  label: "06 / CONFIGURATION",
+  label: "10 · CONFIGURATION",
   headline: ["Tune it with", "environment variables."],
   sub: "The daemon reads its knobs once at startup. The defaults suit an interactive workstation; every one of them is an environment variable.",
   vars: [
@@ -377,7 +378,7 @@ export const config = {
 /* -------------------------------------------------------------------------- */
 
 export const install = {
-  label: "07 / GET STARTED",
+  label: "11 · INSTALL",
   headline: ["Running in", "two commands."],
   sub: "Install the binary, initialize the workspace, and start the observer. The dashboard is one browser tab away.",
   steps: [
@@ -407,7 +408,7 @@ export const install = {
 /* -------------------------------------------------------------------------- */
 
 export const faq = {
-  label: "08 / QUESTIONS",
+  label: "12 · QUESTIONS",
   headline: ["Direct answers.", "No hedging."],
   sub: "The details that decide whether a tool belongs in your repository.",
   items: [
@@ -447,6 +448,8 @@ export const cta = {
   sub: "Run the daemon against a repository where an agent has already been working. The churn timeline fills in on its own.",
   primary: { label: "Install WrongTrace", command: product.install },
   secondary: { label: "View on GitHub", href: product.repo },
+  licence:
+    "BUSL-1.1 — free for personal and internal use. Converts to Apache-2.0 on 2030-01-01.",
 } as const;
 
 export const footer = {

@@ -9,6 +9,7 @@ export function ProblemSection() {
         <SectionHead
           label={problem.label}
           headline={problem.headline}
+          emphasis
           sub={problem.sub}
         />
 

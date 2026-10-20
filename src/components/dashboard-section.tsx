@@ -59,6 +59,7 @@ export function DashboardSection() {
         <SectionHead
           label={dashboard.label}
           headline={dashboard.headline}
+          emphasis
           sub={dashboard.sub}
           aside={
             <p className="font-mono text-[11px] tracking-[0.18em] text-faint uppercase">
@@ -70,7 +71,7 @@ export function DashboardSection() {
         <Reveal className="mt-12">
           <div className="overflow-hidden rounded-lg border border-line bg-bg shadow-1">
             {/* Window chrome */}
-            <div className="flex items-center gap-3 border-b border-line bg-surface/60 px-4 py-2.5">
+            <div className="flex items-center gap-3 border-b border-chrome-line bg-chrome px-4 py-2.5">
               <span aria-hidden="true" className="flex gap-1.5">
                 <span className="size-2 rounded-full bg-line-strong" />
                 <span className="size-2 rounded-full bg-line-strong" />
@@ -147,6 +148,11 @@ export function DashboardSection() {
             </div>
           </div>
         </Reveal>
+
+        <p className="mt-5 text-sm leading-relaxed text-pretty text-muted">
+          A redrawn impression of the built-in dashboard — illustrative numbers,
+          real layout. Switch tabs to see the four views behind this one.
+        </p>
       </Container>
     </Section>
   );

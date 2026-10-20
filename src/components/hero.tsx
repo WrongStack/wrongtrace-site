@@ -7,7 +7,7 @@ import { hero, product } from "@/lib/content";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-16 sm:pt-20 lg:pt-28">
+    <section className="relative overflow-hidden pt-14 sm:pt-18 lg:pt-24">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 grid-bg mask-fade-b"
@@ -18,14 +18,18 @@ export function Hero() {
       />
 
       <Container className="relative">
-        <p className="flex items-center gap-3 font-mono text-[11px] tracking-[0.22em] text-primary uppercase">
+        <p className="font-mono text-[11px] tracking-[0.2em] text-faint uppercase">
+          {hero.kicker}
+        </p>
+
+        <p className="mt-5 flex items-center gap-3 font-mono text-[11px] tracking-[0.22em] text-primary uppercase">
           <span aria-hidden="true" className="h-px w-8 bg-primary" />
           {hero.eyebrow}
         </p>
 
-        <h1 className="mt-7 max-w-4xl text-[2.6rem] leading-[1.03] font-semibold tracking-tight text-balance text-fg sm:text-6xl lg:text-[5.25rem]">
+        <h1 className="mt-7 max-w-5xl text-display leading-[1.02] font-semibold tracking-tight text-balance text-fg">
           <span className="block">{hero.headline[0]}</span>{" "}
-          <span className="block">
+          <span className="block italic">
             {hero.headline[1]}
             <span
               aria-hidden="true"
@@ -34,11 +38,11 @@ export function Hero() {
           </span>
         </h1>
 
-        <p className="mt-7 max-w-2xl text-base leading-relaxed text-pretty text-muted sm:text-lg">
+        <p className="mt-8 max-w-2xl text-lede leading-relaxed text-pretty text-muted">
           {hero.lede}
         </p>
 
-        <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3 rounded-md border border-line bg-code px-4 py-3">
             <span aria-hidden="true" className="font-mono text-sm text-primary">
               $
@@ -51,29 +55,27 @@ export function Hero() {
               label="Copy install command"
             />
           </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <Action href={hero.primaryCta.href}>
+              {hero.primaryCta.label}
+              <IconArrowRight size={16} />
+            </Action>
+            <Action href={hero.secondaryCta.href} variant="ghost">
+              <IconGithub size={16} />
+              {hero.secondaryCta.label}
+            </Action>
+          </div>
         </div>
 
-        <div className="mt-7 flex flex-wrap items-center gap-3">
-          <Action href={hero.primaryCta.href}>
-            {hero.primaryCta.label}
-            <IconArrowRight size={16} />
-          </Action>
-          <Action href={hero.secondaryCta.href} variant="ghost">
-            <IconGithub size={16} />
-            {hero.secondaryCta.label}
-          </Action>
-        </div>
-
-        <dl className="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-3">
+        <ul className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-3 font-mono text-[11px] tracking-[0.16em] text-muted uppercase">
           {hero.chips.map((chip) => (
-            <div key={chip.label} className="bg-bg px-5 py-4">
-              <dt className="font-mono text-[10px] tracking-[0.18em] text-faint uppercase">
-                {chip.label}
-              </dt>
-              <dd className="mt-1.5 text-sm font-medium text-fg">{chip.value}</dd>
-            </div>
+            <li key={chip.label} className="flex items-center gap-2">
+              <span className="text-primary">{chip.index}</span>
+              <span>{chip.label}</span>
+            </li>
           ))}
-        </dl>
+        </ul>
 
         <div className="mt-14 lg:mt-20">
           <HeroPanel />

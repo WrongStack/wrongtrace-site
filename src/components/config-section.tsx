@@ -20,6 +20,7 @@ export function ConfigSection() {
         <SectionHead
           label={config.label}
           headline={[config.headline[0], config.headline[1]]}
+          emphasis
           sub={config.sub}
         />
 

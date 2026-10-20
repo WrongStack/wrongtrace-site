@@ -43,10 +43,15 @@ export function Container({
 /* -------------------------------------------------------------------------- */
 
 type SectionHeadProps = {
-  /** Monospace section marker, e.g. "03 / CONFIGURATION". */
+  /** Monospace section marker, e.g. "03 · CONFIGURATION". */
   label: string;
   /** Two-line statement headline. The second line carries the point. */
   headline: readonly [string, string];
+  /** Optional kicker above the marker, e.g. "PURE GO / v0.3.17". */
+  kicker?: string;
+  /** Italicise the second line. The reference sites do this on the
+      line that carries the argument. */
+  emphasis?: boolean;
   sub?: string;
   aside?: ReactNode;
   className?: string;
@@ -55,6 +60,8 @@ type SectionHeadProps = {
 export function SectionHead({
   label,
   headline,
+  kicker,
+  emphasis = false,
   sub,
   aside,
   className = "",
@@ -62,15 +69,16 @@ export function SectionHead({
   return (
     <div className={`grid gap-8 md:grid-cols-12 md:items-end ${className}`}>
       <div className="md:col-span-7">
+        {kicker ? <Kicker>{kicker}</Kicker> : null}
         <p className="font-mono text-xs tracking-[0.22em] text-primary uppercase">
           {label}
         </p>
-        <h2 className="mt-5 text-3xl leading-[1.15] font-semibold tracking-tight text-balance text-fg sm:text-4xl lg:text-[2.75rem]">
+        <h2 className="mt-5 text-headline leading-[1.08] font-semibold tracking-tight text-balance text-fg">
           <span className="block">{headline[0]}</span>{" "}
-          <span className="block">{headline[1]}</span>
+          <span className={emphasis ? "block italic" : "block"}>{headline[1]}</span>
         </h2>
         {sub ? (
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-pretty text-muted">
+          <p className="mt-5 max-w-xl text-lede leading-relaxed text-pretty text-muted">
             {sub}
           </p>
         ) : null}
@@ -79,6 +87,23 @@ export function SectionHead({
         <div className="md:col-span-5 md:justify-self-end">{aside}</div>
       ) : null}
     </div>
+  );
+}
+
+/**
+ * The line above a section marker. Monospace, faint, and quiet — it names
+ * the build or the licence, not a claim.
+ */
+export function Kicker({ children, className = "" }: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <p
+      className={`mb-3 font-mono text-[11px] tracking-[0.2em] text-faint uppercase ${className}`}
+    >
+      {children}
+    </p>
   );
 }
 

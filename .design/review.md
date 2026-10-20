@@ -260,6 +260,70 @@ Checked on `/`, `/docs`, `/docs/quickstart`, `/docs/config` and the 404 page:
 the header and the footer emit bare `#anchor` on `/` and `/#anchor`
 everywhere else, with no bare anchor left on any non-home route.
 
+## Renewal audit
+
+The site was rebuilt against four references measured on 2026-10-20 —
+oxog.net, ninedeploy.com, labyrinthdns.com and cobaltdb.dev. The harness
+drove the **production build** in Chromium across 5 routes × 4 viewports
+(1440 / 1024 / 768 / 390) × 2 themes — 40 page loads — and the final run
+reported **all audit checks passed**.
+
+| Check | Result |
+|---|---|
+| Contrast failures | **0** in every route, viewport and theme |
+| Text nodes checked | 449 per page (not a vacuous pass — the count is asserted) |
+| Horizontal scroll | none at any width; `scrollWidth === clientWidth` |
+| Sub-24px targets | 1 — the visually hidden skip link |
+| Heading structure | 1 × `h1`, 0 level jumps, on every route |
+| Landmarks | `header` / `main` / `footer` present on every route |
+| Window-chrome edge | 4.06:1 (dark), 4.27:1 (light) — both clear 3:1 |
+| Reduced motion | 0 running animations, 0 marquee, `h1` opacity 1 |
+| Running animations (default) | 5 on the home page, 0 on the docs pages |
+| Home-page frames | 9,872–11,062 distinct colours — rendered content, not blank |
+
+### What the audit caught
+
+Four real defects, all found by measuring rather than by eye:
+
+1. **`--faint` failed 4.5:1.** The quietest text tier was mixed too far
+   towards the background. Raised in both themes — 74% → 95% of `--muted` in
+   dark, 78% → 94% in light — and the contract is now stated in the token
+   file: it has to clear 4.5:1 on `--bg`, `--surface` *and* `--raised`, not
+   just the page background.
+2. **The light theme's semantic tier failed.** `--success` measured 3.69:1
+   and `--warning` 2.45:1 on near-white. Darkened as a peer set
+   (`--success` 53%, `--warning` 54%, `--danger` 52%) so the three sit at the
+   same lightness. On a near-white surface an accessible amber is a dark
+   bronze; that is the honest cost, not a bug.
+3. **The light window-chrome edge measured 2.48:1.** `--chrome-line` mixed
+   70% of `--line` towards `--fg`; changed to 50% so it clears 3:1.
+4. **The docs pages skipped a heading level** — `h1` → `h3`, because the
+   step titles were `h3` under an `h1` page title. Changed to `h2`.
+
+Two of those four were mine: the light-theme `--faint` mix was initially
+inverted (on a near-white background "faint" has to be *darker*, not
+lighter), and the first attempt missed the `--raised` surface entirely.
+
+### Harness corrections
+
+Three faults in the harness itself, each of which would have produced a
+misleading result:
+
+- The colour parser had no `oklch()` branch. Chromium serialises computed
+  colours as `oklch(L C H)` for oklch-authored styles, and the hue can be the
+  literal `none` — `parseFloat("none")` is `NaN`, and `NaN < 4.5` is false, so
+  the check **passed silently**. The parser now handles `oklch`, `lab`,
+  `color(srgb)` and `rgb()`, treats hue `none` as 0, asserts the ratio is
+  finite, and asserts a minimum count of parsed text nodes.
+- Target-size checking flagged inline prose links. WCAG 2.2 SC 2.5.8 exempts
+  targets that are inline within a sentence, because their size is constrained
+  by the surrounding line-height. The check now skips `display: inline`
+  targets, and still enforces 24×24 on every block-level control.
+- The overflow check reported the agent-strip marquee (3,251px wide) as a
+  defect. It is inside an `overflow: hidden` container, so it never scrolls
+  the page. The check now only reports an element wider than the viewport if
+  no ancestor clips it.
+
 ## Known gaps
 
 These were **not** verified and are stated rather than implied:

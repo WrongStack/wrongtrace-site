@@ -1,72 +1,69 @@
-"use client";
+import type { ReactElement } from "react";
+import Link from "next/link";
 
-import { useState } from "react";
-
-import { IconChevronDown } from "@/components/icons";
 import { Container, SectionHead } from "@/components/primitives";
-import { faq } from "@/lib/content";
+import { Reveal } from "@/components/reveal";
+import { faqSection } from "@/lib/sections-faq";
 
-export function FaqSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggle = (index: number) => {
-    setOpenIndex((current) => (current === index ? null : index));
-  };
-
+/**
+ * The FAQ as numbered prose questions with full-paragraph answers — the way
+ * the reference documentation sites answer them. Nothing collapses, so
+ * everything is readable without interaction and reachable by a crawler.
+ */
+export function FaqSection(): ReactElement {
   return (
     <section id="faq" className="py-20 sm:py-24 lg:py-32">
       <Container>
         <SectionHead
-          label={faq.label}
-          headline={[faq.headline[0], faq.headline[1]]}
-          sub={faq.sub}
+          label={faqSection.label}
+          kicker={faqSection.kicker}
+          headline={[faqSection.headline[0], faqSection.headline[1]]}
+          emphasis
+          sub={faqSection.sub}
         />
 
-        <div className="mt-12 border-t border-line">
-          {faq.items.map((item, index) => {
-            const isOpen = openIndex === index;
-            const buttonId = `faq-question-${index}`;
-            const panelId = `faq-answer-${index}`;
-
-            return (
-              <div key={item.q}>
-                <h3 className="m-0">
-                  <button
-                    type="button"
-                    id={buttonId}
-                    aria-expanded={isOpen}
-                    aria-controls={panelId}
-                    onClick={() => toggle(index)}
-                    className="flex w-full items-start justify-between gap-6 border-b border-line py-5 text-left transition-colors duration-150 hover:text-primary"
+        <ol className="mt-14 max-w-3xl">
+          {faqSection.items.map((item, index) => (
+            <li key={item.id} className="border-t border-line py-8 first:border-t-0 first:pt-0">
+              <Reveal delay={index * 0.04}>
+                <h3 className="flex gap-4 text-lg font-medium text-balance text-fg">
+                  <span
+                    aria-hidden="true"
+                    className="font-mono text-sm text-primary tnum"
                   >
-                    <span className="text-base font-medium text-fg">
-                      {item.q}
-                    </span>
-                    <IconChevronDown
-                      size={18}
-                      className={`mt-0.5 shrink-0 text-muted transition-transform duration-200 ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span>{item.question}</span>
                 </h3>
-
-                {isOpen ? (
-                  <div
-                    id={panelId}
-                    role="region"
-                    aria-labelledby={buttonId}
-                    className="border-b border-line pb-5"
-                  >
-                    <p className="max-w-2xl pt-1 text-sm leading-relaxed text-muted">
-                      {item.a}
-                    </p>
-                  </div>
-                ) : null}
-              </div>
-            );
-          })}
-        </div>
+                <p className="mt-4 pl-9 text-[15px] leading-relaxed text-pretty text-muted">
+                  {item.answer}
+                  {item.link ? (
+                    <>
+                      {" "}
+                      {item.link.external ? (
+                        <a
+                          href={item.link.href}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="text-fg underline decoration-line-strong underline-offset-4 transition-colors duration-150 hover:decoration-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                        >
+                          {item.link.label}
+                        </a>
+                      ) : (
+                        <Link
+                          href={item.link.href}
+                          className="text-fg underline decoration-line-strong underline-offset-4 transition-colors duration-150 hover:decoration-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                        >
+                          {item.link.label}
+                        </Link>
+                      )}
+                    </>
+                  ) : null}
+                </p>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </Container>
     </section>
   );

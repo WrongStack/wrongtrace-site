@@ -1,81 +1,123 @@
-# WrongTrace — website design brief
+# WrongTrace — website design brief (revision 2)
+
+Supersedes revision 1. The site is being renewed end to end against a wider
+reference set: **oxog.net**, **ninedeploy.com**, **labyrinthdns.com** and
+**cobaltdb.dev**. This revision records what those four have in common, what
+the current site gets wrong against them, and what the renewal must deliver.
 
 ## Product
 
-WrongTrace: an AI-native code churn and agent observability daemon. A single Go binary
-with an embedded React dashboard, Tree-sitter AST diffing, and MCP + IPC telemetry.
-It answers one question that agentic coding made urgent: **what did my agent actually
-change, and why?**
+WrongTrace: an AI-native code churn and agent observability daemon. A single
+Go binary with an embedded React dashboard, Tree-sitter AST diffing, and MCP +
+IPC telemetry. It answers one question that agentic coding made urgent: **what
+did my agent actually change, and why?**
 
 ## Audience
 
-- **Primary:** engineering leads and platform teams running coding agents (Claude Code,
-  Codex, WrongStack subagents) across a shared monorepo who need an audit trail of
-  churn, not a wall of raw terminal logs.
-- **Secondary:** individual developers who want to see one agent session's file-level
-  effect without leaving the terminal, and reviewers who need to understand *why* a
-  diff happened.
-- **Tertiary:** technical decision-makers evaluating observability tooling for agent
-  workflows.
+- **Primary:** engineering leads and platform teams running coding agents
+  (Claude Code, Codex, WrongStack subagents) across a shared monorepo who need
+  an audit trail of churn, not a wall of raw terminal logs.
+- **Secondary:** individual developers who want to see one agent session's
+  file-level effect without leaving the terminal, and reviewers who need to
+  understand *why* a diff happened.
+- **Tertiary:** technical decision-makers evaluating observability tooling for
+  agent workflows.
 
 ## Primary task
 
-Land on the page → understand in ~8 seconds that WrongTrace traces agent code churn →
-see that it is one Go binary with no database → get the install command → open the
-dashboard. Every section must push toward one of those four things.
+Land on the page → understand in ~8 seconds that WrongTrace traces agent code
+churn → see that it is one Go binary with no database → get the install
+command → open the dashboard. Every section must push toward one of those four
+things.
 
-## Real content (no invented metrics, no fake testimonials)
+## What the four references have in common
 
-Facts are taken from the WrongStack/WrongTrace public repository and its README.
+These are the measured patterns the renewal is built on. Each one is something
+the current site does **not** do, or does weakly.
 
-- Single Go binary, embedded React dashboard, Tree-sitter AST diffing, MCP + IPC telemetry.
-- Busiest signal in the README is code churn: AST-level diffs of what agents changed.
-- Telemetry surfaces over MCP and IPC; a loopback HTTP proxy captures agent traffic.
-- Configuration is environment-driven, e.g. `WRONGTRACE_MAX_SCAN_DEPTH` (default 8),
-  `WRONGTRACE_AST_MAX_SNAPSHOTS` (default 8000), `WRONGTRACE_AST_CACHE_MB`,
-  `WRONGTRACE_INDEX_CPU`, `WRONGTRACE_MEMORY_LIMIT_MB`, `WRONGTRACE_PPROF_ADDR`,
-  `WRONGTRACE_PROXY_LOG`, `WRONGTRACE_LOG_ALL_HTTP`, `WRONGTRACE_VERBOSE`.
-- Licence is BUSL-1.1: free for personal work and internal use; a commercial licence is
-  required to offer it as a hosted/managed service; converts to Apache-2.0 on
-  **2030-01-01**. This is a commercial decision, so it is stated plainly, not buried.
-- Repo: github.com/WrongStack/WrongTrace.
+| Pattern | Reference | What it looks like |
+|---|---|---|
+| Editorial two-line headline, second line is the point | all four | "Every query. / _A clear path._" — the second line carries the argument, often with one italic word |
+| Kicker above the headline | labyrinth, ninedeploy | "Independent by design. PURE GO / v0.8.44" |
+| Numbered section markers | all four | "01 · Features", "02 · Dashboard" — two-digit, a middle dot, then the label |
+| **An interactive live diagram in the hero** | labyrinth, ninedeploy | a draggable node graph with a play button and a step counter; a topology with a "push a broken one" toggle |
+| **A fake product surface that is a window** | labyrinth, ninedeploy | browser chrome, tabs, a live table with real status words (`NOERROR`, `CACHE`, `BLOCKED`) |
+| **A numbered stepper with monospace trace lines** | ninedeploy, labyrinth | "01 of 10" and under each step a `→ deployment #48 queued · slot-1 claimed` line in mono |
+| **A metric strip with a provenance footnote** | labyrinth | `6.86.8 MB` / `2222M/s` / `4545 ns` with the benchmark and hardware named underneath |
+| **A comparison table with an honest verdict** | labyrinth, ninedeploy | capability rows across three columns, then one line: "The honest pitch: …" |
+| **A tabbed terminal block** | ninedeploy, labyrinth | `CLI / SDK / MCP / Manifest` tabs, one terminal, `install script / docker / from source` |
+| **An honest "fine print" section** | ninedeploy, labyrinth | what the product does *not* do, stated plainly, before the FAQ |
+| **FAQ as numbered prose, not an accordion** | labyrinth | "01 Where do my queries go?" with a full-paragraph answer and a link |
+| A repeated closing CTA with a variant | ninedeploy | "Your server. Your rules." + a bare-metal/docker toggle + the install command |
+| An editorial numbered feature list, not a card grid | labyrinth | `/01 Single binary`, each with a bold title and a paragraph |
+| A cross-product mention | labyrinth | a sibling product with its logo, for the traffic it actually deserves |
 
-**Explicitly excluded:** benchmark numbers, user counts, testimonials, funding claims,
-"trusted by" logos, and any telemetry figures presented as if measured. Where the site
-needs to show a dashboard, the data is labelled *sample data* on the surface itself.
+## Real content (no invented metrics)
 
-## Layout hierarchy
+Every number on the site is one of three kinds, and the kind is always
+visible on the page. This is unchanged from revision 1 and is non-negotiable.
 
-1. **Hero** — single claim, one-line proof, install command, three trust chips.
-2. **The problem** — the raw-log problem, stated in the user's own words.
-3. **Live product surface** — interactive dashboard mock (tabs, churn timeline, diff
-   inspector). The single most persuasive block; sample data labelled.
-4. **Capabilities** — six-part grid, each with a hand-drawn SVG glyph.
-5. **How it works** — four-step animated pipeline: agent → capture → AST diff → timeline.
-6. **Config reference** — terminal block of real env vars with defaults.
-7. **Two ways to run** — daemon mode vs MCP server mode.
-8. **FAQ** — six questions, direct answers.
-9. **CTA + footer** — install, source, licence.
+1. **Real configuration defaults**, copied from the WrongTrace README:
+   `3444` (default port), `8` (`WRONGTRACE_MAX_SCAN_DEPTH`), `8000`
+   (`WRONGTRACE_AST_MAX_SNAPSHOTS`), `48` (`WRONGTRACE_AST_CACHE_MB`), `512`
+   (`WRONGTRACE_MEMORY_LIMIT_MB`), `50` (`WRONGTRACE_INDEX_CPU`).
+2. **Upstream capability claims**, quoted from the README rather than measured
+   by us: `20+` coding agents auto-discovered, `11+` languages under AST
+   diffing, `9` MCP tools, `10` dashboard views, `14-day` code survival-rate
+   window, `0-100` file health score, `2030-01-01` BUSL-1.1 → Apache-2.0
+   conversion, `0.3.17` current version.
+3. **Sample data**, always labelled *sample data* on the surface that shows it:
+   the dashboard mock's churn figures, costs, KPIs and query rows.
+
+Explicitly excluded: benchmark numbers, user counts, testimonials, funding
+claims, "trusted by" logos, and any figure presented as if we measured it.
+
+## Layout hierarchy (the renewal)
+
+1. **Hero** — kicker, two-line editorial headline, install command, three
+   numbered chips, and the live AST-diff panel.
+2. **The problem** — the raw-log problem, in the user's own words.
+3. **Capability strip** — *new.* A mono metric strip with a provenance
+   footnote naming what each number is.
+4. **Capabilities** — *rebuilt* as an editorial numbered list (`/01` …), not a
+   card grid.
+5. **Dashboard** — the interactive mock, framed as a real window with tabs and
+   a live table, captioned as illustrative numbers in a real layout.
+6. **How it works** — *rebuilt* as a numbered stepper, each step carrying a
+   monospace trace line, with a step counter.
+7. **Comparison** — *new.* WrongTrace against raw terminal logs and against a
+   full APM vendor, with the honest verdict.
+8. **Fine print** — *new.* What WrongTrace does not do, stated plainly.
+9. **Two ways to run** — daemon mode vs MCP server mode.
+10. **Configuration** — the real environment variables, with their defaults.
+11. **Install** — *rebuilt* as a tabbed terminal block.
+12. **FAQ** — *rebuilt* as numbered prose questions, not an accordion.
+13. **CTA + footer** — the closing command, the repo, and the licence.
+
+The `/docs` route stays as it is: five prerendered section pages, a sticky
+section list, and real facts from the README.
 
 ## Product-specific visual idea
 
-The visual identity is a **churn diff**: the site's signature graphic is a line of
-changed code whose segments light up in sequence, and the accent colour is used exactly
-the way a diff viewer uses it — cyan for added structure, green for accepted state,
-amber for a pending edit, red for a rejected one. The hero carries a live AST-diff
-animation: a file tree on the left, a diff pane on the right, and a churn timeline
-underneath that fills as "agents" commit edits. Everything else stays quiet.
-
-Section headers follow the reference sites' convention: `01 / WHAT IT DOES` in
-monospace, tracked-out caps, followed by a two-line statement headline where the
-second line is the point.
+The visual identity is a **churn diff**. The signature graphic is a line of
+changed code whose segments light up in sequence, and the accent colour is
+used the way a diff viewer uses it: cyan for added structure, green for
+accepted state, amber for a pending edit, red for a rejected one. The hero
+carries a live AST diff — file tree on the left, diff pane on the right, churn
+timeline underneath that fills as "agents" commit edits. Everything else stays
+quiet.
 
 ## Design system
 
-Kit: **dark-pro**. Dark is the primary theme; light is the secondary derivative.
-Deep blue-neutral base (not pure black), one electric cyan accent, restrained
-semantic neons, 1px hairline borders, monospace for IDs/metrics/code, Inter/Geist for
-prose. Density is a feature. Glow only on accent and active states.
+Kit: **dark-pro**. Dark is primary; light is the secondary derivative. Deep
+blue-neutral base (not pure black), one electric cyan accent, restrained
+semantic neons, 1px hairline borders, monospace for IDs/metrics/code, Inter or
+Geist for prose. Density is a feature. Glow only on accent and active states.
+
+Type scale moves up for the renewal: the hero headline is the largest thing on
+the site, section headlines are two lines with the second line carrying the
+point, and body copy is 15–16px with a 1.6 measure. Section markers use the
+`01 · LABEL` convention.
 
 ## Numeric claims and their provenance
 
@@ -94,9 +136,8 @@ and served by the daemon as documented:
 | `512` | `WRONGTRACE_MEMORY_LIMIT_MB` default | README |
 | `50` | `WRONGTRACE_INDEX_CPU` default | README |
 
-**2. Upstream capability claims** — the project's own documented figures, quoted
-rather than measured by us. These describe what the software does, not how it
-performed:
+**2. Upstream capability claims** — the project's own documented figures,
+quoted rather than measured by us:
 
 | Number | Claim | Source (WrongTrace README) |
 |---|---|---|
@@ -119,16 +160,18 @@ measured result.
 
 ## Acceptance checks
 
-- [ ] Contrast: body text ≥ 4.5:1, large text and UI borders ≥ 3:1, in both themes.
-- [ ] Keyboard: every interactive element reachable and operable; visible focus ring
-      on the accent; skip-to-content link; accordions are real buttons with
-      `aria-expanded`; tabs follow the ARIA tabs pattern with arrow-key navigation.
-- [ ] Reduced motion: `prefers-reduced-motion: reduce` disables the scroll reveals,
-      the diff animation, the marquee, and the count-up, leaving static content.
-- [ ] Responsive: verified at 1440, 1024, 768, and 390 CSS px. No horizontal scroll
-      at any width. The dashboard mock reflows to a stacked layout below 768.
-- [ ] The install command is a real, copyable command.
-- [ ] Every number on the page is a real config default, an upstream capability
-      claim from the README (see *Numeric claims and their provenance*), or is
-      labelled as sample data.
-- [ ] Typecheck, lint, and `next build` all pass.
+- Every one of the thirteen layout items above exists, in that order.
+- The capability strip's numbers are each traceable to one of the three
+  content kinds, and the kind is visible on the page.
+- The comparison table has a verdict line, and the fine print section exists
+  and is honest.
+- The FAQ renders as numbered prose questions; the dashboard renders as a
+  window with working tabs; the stepper has a working step counter.
+- WCAG AA contrast on every text node, in both themes.
+- No horizontal overflow at 1440, 1024, 768 or 390.
+- Every interactive target is at least 24×24; the skip link is the first tab
+  stop and moves focus into `main`.
+- Reduced motion: no marquee, no autoplay, everything static and legible.
+- Keyboard: tabs, stepper, install tabs and FAQ all operable.
+- `npm run typecheck`, `npm run lint`, `npm run build` pass; no file over 800
+  lines.

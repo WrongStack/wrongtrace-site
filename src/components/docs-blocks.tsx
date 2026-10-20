@@ -37,7 +37,7 @@ function Steps({
             {index + 1}
           </span>
           <div className="min-w-0">
-            <h3 className="text-base font-medium text-fg">{item.title}</h3>
+            <h2 className="text-base font-medium text-fg">{item.title}</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted">
               {item.body}
             </p>

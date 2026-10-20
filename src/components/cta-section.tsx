@@ -15,11 +15,13 @@ export function CtaSection() {
         <Reveal>
           <div className="relative z-10 grid gap-10 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-7">
-              <h2 className="text-3xl font-semibold tracking-tight text-balance text-fg sm:text-4xl lg:text-[2.75rem]">
+              <h2 className="text-headline leading-[1.08] font-semibold tracking-tight text-balance text-fg">
                 <span className="block">{cta.headline[0]}</span>{" "}
-                <span className="block">{cta.headline[1]}</span>
+                <span className="block italic">{cta.headline[1]}</span>
               </h2>
-              <p className="mt-5 max-w-xl text-base text-muted">{cta.sub}</p>
+              <p className="mt-6 max-w-xl text-lede leading-relaxed text-pretty text-muted">
+                {cta.sub}
+              </p>
             </div>
 
             <div className="lg:col-span-5">
@@ -47,6 +49,10 @@ export function CtaSection() {
                     {cta.secondary.label}
                   </Action>
                 </div>
+
+                <p className="mt-4 font-mono text-[11px] leading-relaxed text-faint">
+                  {cta.licence}
+                </p>
               </div>
             </div>
           </div>

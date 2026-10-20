@@ -11,7 +11,8 @@ import {
 } from "@/components/icons";
 import { Container, Section, SectionHead } from "@/components/primitives";
 import { Reveal } from "@/components/reveal";
-import { capabilities, capabilitiesHead } from "@/lib/content";
+import { capabilities } from "@/lib/content";
+import { capabilitiesSection } from "@/lib/sections-capabilities";
 
 type IconComponent = ComponentType<IconProps>;
 
@@ -31,61 +32,57 @@ const capabilityIcons: Record<string, IconComponent> = {
 
 export function CapabilitiesSection() {
   const headline: [string, string] = [
-    capabilitiesHead.headline[0],
-    capabilitiesHead.headline[1],
+    capabilitiesSection.headline[0],
+    capabilitiesSection.headline[1],
   ];
 
   return (
     <Section id="capabilities" className="py-20 sm:py-24 lg:py-32">
       <Container>
         <SectionHead
-          label={capabilitiesHead.label}
+          label={capabilitiesSection.label}
+          kicker={capabilitiesSection.kicker}
           headline={headline}
-          sub={capabilitiesHead.sub}
+          emphasis={capabilitiesSection.emphasis}
+          sub={capabilitiesSection.sub}
         />
 
-        <Reveal>
-          <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-            {capabilities.map((capability, i) => {
-              const Icon = capabilityIcons[capability.icon];
+        {/* Editorial numbered list: a marker and a title on the left, the
+            argument on the right. Hairline rules separate the rows. */}
+        <ol className="mt-14 border-t border-line">
+          {capabilities.map((capability, index) => {
+            const Icon = capabilityIcons[capability.icon];
 
-              return (
-                <Reveal key={capability.id} delay={i * 0.05} className="bg-bg">
-                  <article className="flex h-full flex-col p-6 sm:p-7">
-                    <div className="flex items-start justify-between gap-4">
-                      <span className="flex size-9 items-center justify-center rounded-md border border-line bg-raised/50 text-primary">
-                        <Icon size={18} />
-                      </span>
-                      <span className="font-mono text-xs text-primary">
-                        {capability.index}
-                      </span>
+            return (
+              <li key={capability.id}>
+                <Reveal delay={index * 0.05}>
+                  <article className="grid gap-x-10 gap-y-4 border-b border-line py-8 md:grid-cols-12">
+                    <div className="md:col-span-5">
+                      <div className="flex items-center gap-4">
+                        <span className="font-mono text-sm text-primary tnum">
+                          /{capability.index}
+                        </span>
+                        <Icon size={18} className="text-faint" />
+                      </div>
+                      <h3 className="mt-3 text-xl font-semibold text-balance text-fg">
+                        {capability.title}
+                      </h3>
                     </div>
 
-                    <h3 className="mt-5 text-base font-medium text-fg">
-                      {capability.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted">
-                      {capability.body}
-                    </p>
-
-                    <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] text-faint">
-                      {capability.tags.map((tag, tagIndex) => (
-                        <span key={tag} className="flex items-center gap-3">
-                          {tagIndex > 0 ? (
-                            <span aria-hidden="true" className="text-faint">
-                              ·
-                            </span>
-                          ) : null}
-                          {tag}
-                        </span>
-                      ))}
+                    <div className="md:col-span-7">
+                      <p className="text-[15px] leading-relaxed text-pretty text-muted">
+                        {capability.body}
+                      </p>
+                      <p className="mt-4 font-mono text-[11px] text-faint">
+                        {capability.tags.join(" · ")}
+                      </p>
                     </div>
                   </article>
                 </Reveal>
-              );
-            })}
-          </div>
-        </Reveal>
+              </li>
+            );
+          })}
+        </ol>
       </Container>
     </Section>
   );
