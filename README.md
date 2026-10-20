@@ -44,15 +44,27 @@ npm run dev          # http://localhost:3000
 
 ## Site URL
 
-`metadataBase`, the generated `og:image` URL, `sitemap.xml` and `robots.txt`
-all resolve against one origin: `NEXT_PUBLIC_SITE_URL` (see `.env.example`).
-Unset, it falls back to `http://localhost:3000` so local builds still emit
-valid absolute URLs instead of a fabricated domain. Set it in the deployment
-environment.
+The site is served from **https://wrongtrace.oxog.dev**.
+
+`metadataBase`, the generated `og:image` URL, `sitemap.xml`, `robots.txt` and
+the canonical link all resolve against one origin: `NEXT_PUBLIC_SITE_URL`
+(see `.env.example`), which defaults to that address. Override it for a
+preview or a fork deployment, which needs its own origin.
 
 ```powershell
 $env:NEXT_PUBLIC_SITE_URL = "https://your-domain.example"
 ```
+
+## Custom domain
+
+`public/CNAME` holds the custom domain, so it travels with the build output.
+
+The DNS record for `wrongtrace.oxog.dev` has to point at whatever actually
+serves this site. One thing to know before pointing it anywhere: the site is a
+Next.js **server**, not a static export. `next.config.ts` sets no
+`output: "export"`, and the Open Graph route runs on Node at request time
+while reading its fonts from disk. GitHub Pages cannot run it, so the CNAME
+has to target a host that can — Cloudflare Workers via OpenNext, or Vercel.
 
 ## Checks
 
@@ -84,6 +96,7 @@ pinned in `.nvmrc`.
 | `src/app/fonts/` | Static TTFs used by the OG renderer (satori cannot read woff2) |
 | `src/app/globals.css` | The design-token source — read this before adding colour |
 | `public/og-preview.png` | A saved render of the OG card, for reviewing the composition |
+| `public/CNAME` | The custom domain, carried in the build output |
 
 ### Libraries
 
