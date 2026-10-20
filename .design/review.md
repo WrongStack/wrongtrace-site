@@ -185,6 +185,31 @@ and the measurement did not, so the rendered width is ~557px in a 620px box.
 produced these numbers was temporary and has been removed; the numbers are
 recorded here.
 
+### Not-found page
+
+`src/app/not-found.tsx` replaces the framework default for unmatched routes.
+It renders inside the root layout, so the site header and footer are already
+present and are not duplicated. Verified in Chromium against the production
+build at both required widths:
+
+| Check | 1440px | 390px |
+|---|---|---|
+| `GET /this-route-was-never-traced` | 404 | 404 |
+| Heading | "Nothing was changed here." @ 60px | @ 36px |
+| Site chrome (header / main / footer) | all present | all present |
+| Actions | Back to the top, Open the repository | same |
+| Horizontal scroll | none (1440/1440) | none (390/390) |
+| Contrast failures | 0 | 0 |
+| Sub-24px targets | 1 (the hidden skip link) | 1 |
+| Focused skip link | 131.5 × 36px, on screen | same |
+| JavaScript console errors | none | none |
+
+The only 4xx responses recorded are the route under test and the same path
+re-requested by Next in its RSC flight format (`?_rsc=…`) — both are the page
+working, not a broken asset. Screenshots were captured at each width and
+analysed for colour variety and ink coverage (4555 and 3863 distinct colours)
+to confirm the frames contain rendered content.
+
 ## Known gaps
 
 These were **not** verified and are stated rather than implied:

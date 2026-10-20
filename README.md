@@ -50,6 +50,7 @@ npm start            # serve the production build
 | Path | Purpose |
 |---|---|
 | `src/app/page.tsx` | Section order for the single route |
+| `src/app/not-found.tsx` | The 404 page, in the site's own dark-pro system |
 | `src/app/layout.tsx` | Document shell, fonts, metadata, theme script, skip link |
 | `src/app/globals.css` | The design-token source — read this before adding colour |
 | `src/app/opengraph-image.tsx` | Generated 1200×630 Open Graph card (`next/og`) |
