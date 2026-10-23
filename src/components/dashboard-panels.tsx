@@ -28,100 +28,73 @@ export function OverviewPanel() {
   const maxAdded = Math.max(...sampleTimeline.map((entry) => entry.added));
 
   return (
-    <div className="grid gap-px bg-line lg:grid-cols-12">
-      <div className="grid gap-px bg-line sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
+    <div className="dashboard-overview">
+      <div className="dashboard-kpis">
         {sampleKpis.map((kpi) => (
-          <div key={kpi.label} className="bg-bg p-4">
-            <p className="font-mono text-[10px] tracking-[0.18em] text-faint uppercase">
-              {kpi.label}
-            </p>
-            <p
-              className={`mt-2 font-mono text-2xl tnum ${toneClasses[kpi.tone]}`}
-            >
-              {kpi.value}
-            </p>
-            <p className="mt-1 font-mono text-[11px] text-faint">{kpi.note}</p>
+          <div key={kpi.label} className={`dashboard-kpi dashboard-kpi--${kpi.tone}`}>
+            <span className="dashboard-kpi__icon" aria-hidden="true" />
+            <p>{kpi.label}</p>
+            <strong className={`tnum ${toneClasses[kpi.tone]}`}>{kpi.value}</strong>
+            <small>{kpi.note}</small>
           </div>
         ))}
       </div>
 
-      <div className="bg-bg p-4 lg:col-span-7">
-        <p className="font-mono text-[10px] tracking-[0.18em] text-faint uppercase">
-          Churn by session
-        </p>
-        <ul className="mt-4 space-y-3">
-          {sampleTimeline.map((entry) => {
-            const width = Math.max(
-              4,
-              Math.round((entry.added / maxAdded) * 100),
-            );
-            return (
-              <li key={`${entry.label}-${entry.at}`}>
-                <div className="flex items-baseline justify-between gap-3">
-                  <span className="truncate font-mono text-[11px] text-fg">
-                    {entry.label}
-                  </span>
-                  <span className="shrink-0 font-mono text-[10px] text-faint tnum">
-                    {entry.at} · {entry.model}
-                  </span>
+      <div className="dashboard-overview__grid">
+        <div className="dashboard-card dashboard-chart">
+          <div className="dashboard-card__head">
+            <div><strong>AST code churn &amp; velocity</strong><span>Correlated mutations across active sessions</span></div>
+            <span className="dashboard-card__mode">All time</span>
+          </div>
+          <div className="churn-chart" aria-label="Sample code churn by session">
+            <div className="churn-chart__grid" aria-hidden="true"><i /><i /><i /><i /></div>
+            {sampleTimeline.map((entry) => {
+              const height = Math.max(12, Math.round((entry.added / maxAdded) * 100));
+              const deleted = Math.max(6, Math.round((entry.deleted / maxAdded) * 100));
+              return (
+                <div className="churn-chart__column" key={`${entry.label}-${entry.at}`}>
+                  <div className="churn-chart__bars">
+                    <i style={{ height: `${height}%` }} />
+                    <b style={{ height: `${deleted}%` }} />
+                  </div>
+                  <span>{entry.at}</span>
                 </div>
-                <div className="mt-1.5 flex h-1.5 w-full gap-0.5 overflow-hidden rounded-full bg-line">
-                  <span
-                    className="h-full rounded-full bg-primary"
-                    style={{ width: `${width}%` }}
-                  />
-                  <span
-                    className="h-full rounded-full bg-del"
-                    style={{
-                      width: `${Math.max(2, Math.round((entry.deleted / maxAdded) * 100))}%`,
-                    }}
-                  />
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-
-      <div className="bg-bg lg:col-span-12">
-        <div className="flex items-center justify-between gap-4 px-4 pt-4">
-          <p className="font-mono text-[10px] tracking-[0.18em] text-faint uppercase">
-            Live event stream
-          </p>
-          <p className="font-mono text-[10px] text-faint">5 events</p>
+              );
+            })}
+          </div>
+          <div className="churn-chart__legend"><span><i /> Added</span><span><i /> Deleted</span></div>
         </div>
-        <ul className="mt-3">
+
+        <div className="dashboard-card dashboard-events">
+          <div className="dashboard-card__head">
+            <div><strong>Live mutation stream</strong><span>5 events · sample workspace</span></div>
+            <span className="dashboard-live-dot"><i aria-hidden="true" /> Live</span>
+          </div>
+          <ul>
           {sampleEvents.map((event) => (
             <li
               key={event.file}
-              className="grid gap-1 border-t border-line px-4 py-3 sm:grid-cols-[minmax(0,1fr)_auto_auto] sm:items-center sm:gap-6"
+              className="dashboard-event"
             >
               <div className="min-w-0">
-                <p className="truncate font-mono text-xs text-fg">
-                  {event.file}
-                </p>
-                <p className="mt-0.5 font-mono text-[10px] text-faint">
-                  {event.agent} · {event.model}
-                </p>
+                <p>{event.file}</p>
+                <small>{event.agent} · {event.model}</small>
               </div>
-              <p className="font-mono text-[11px] tnum">
+              <p className="dashboard-event__delta tnum">
                 <span className="text-add">+{event.added}</span>{" "}
                 <span className="text-del">−{event.deleted}</span>
               </p>
-              <p
-                className={`font-mono text-[10px] tracking-wide uppercase ${
+              <p className={`dashboard-event__state ${
                   event.state === "accepted"
                     ? "text-success"
                     : event.state === "pending"
                       ? "text-warning"
                       : "text-danger"
-                }`}
-              >
-                {event.state}
-              </p>
+                }`}><i aria-hidden="true" />{event.state}</p>
             </li>
           ))}
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
   );
@@ -292,10 +265,25 @@ export function LineagePanel() {
 export function GatewayPanel() {
   return (
     <div className="p-4 sm:p-5">
-      <p className="font-mono text-[10px] tracking-[0.18em] text-faint uppercase">
-        Token composition
-      </p>
-      <div className="mt-4 overflow-x-auto">
+      <div className="gateway-summary">
+        <div><span>Proxy requests</span><strong>100</strong><small>live intercepted</small></div>
+        <div><span>Total tokens</span><strong>2.59M</strong><small>all providers</small></div>
+        <div><span>Prompt cache</span><strong>87.5%</strong><small>$1.63 saved</small></div>
+        <div><span>Tool calls</span><strong>124</strong><small>$0.54 spend</small></div>
+      </div>
+      <div className="gateway-composition" aria-label="Sample token composition">
+        <div><span>Cached prompt</span><i style={{width:"62%"}} /></div>
+        <div><span>Fresh prompt</span><i style={{width:"23%"}} /></div>
+        <div><span>Completion</span><i style={{width:"10%"}} /></div>
+        <div><span>Reasoning</span><i style={{width:"5%"}} /></div>
+      </div>
+      <div className="mt-5 flex items-center justify-between gap-4">
+        <p className="font-mono text-[10px] tracking-[0.18em] text-faint uppercase">
+          Provider traffic
+        </p>
+        <span className="dashboard-live-dot"><i aria-hidden="true" /> Wire live</span>
+      </div>
+      <div className="mt-3 overflow-x-auto rounded-md border border-line bg-surface/40 px-4">
         <table className="w-full min-w-[36rem] border-collapse text-left">
           <thead>
             <tr className="border-b border-line">

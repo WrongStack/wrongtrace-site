@@ -51,11 +51,12 @@ export function HeroPanel() {
   return (
     <figure className="hero-trace">
       <figcaption className="hero-trace__bar">
-        <span className="hero-trace__traffic" aria-hidden="true"><i /><i /><i /></span>
-        <span className="inline-flex items-center gap-2 font-mono text-[11px] text-muted">
-          <IconChurn size={14} className="text-primary" /> wrongtrace / workspace
+        <span className="hero-trace__appmark" aria-hidden="true"><IconChurn size={15} /></span>
+        <span className="inline-flex items-center gap-2 font-mono text-[11px] text-fg">
+          <strong>WrongTrace</strong><span className="text-faint">/ workspace</span>
         </span>
-        <span className="font-mono text-[9px] tracking-[0.14em] text-faint uppercase">Sample data</span>
+        <span className="hero-trace__live"><i aria-hidden="true" /> Live</span>
+        <span className="hero-trace__agents">Sample · 3 agents</span>
         <div className="ml-auto flex items-center gap-1.5">
           <button type="button" onClick={() => setTick((value) => (value - 1 + lines.length) % lines.length)} aria-label="Previous AST step" className="trace-control">−</button>
           <button
@@ -70,6 +71,13 @@ export function HeroPanel() {
           <button type="button" onClick={() => setTick((value) => (value + 1) % lines.length)} aria-label="Next AST step" className="trace-control">+</button>
         </div>
       </figcaption>
+
+      <div className="hero-trace__metrics" aria-label="Sample workspace metrics">
+        <div><span>INDEXED</span><strong>10,363</strong><small>100% ready</small></div>
+        <div><span>AST SYMBOLS</span><strong>46,592</strong><small>11 languages</small></div>
+        <div><span>NET LOC</span><strong>+210</strong><small>5 mutations</small></div>
+        <div><span>THRASHING</span><strong>2</strong><small>needs review</small></div>
+      </div>
 
       <div className="hero-trace__workspace">
         <aside className="file-browser" aria-label="Changed files">

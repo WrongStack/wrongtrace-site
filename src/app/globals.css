@@ -12,10 +12,11 @@
 :root {
   color-scheme: dark;
 
-  /* Surfaces — compact, cool-black counterpart to the reference family. */
-  --bg: oklch(16% 0.014 274);
-  --surface: oklch(20% 0.016 274);
-  --raised: oklch(24% 0.018 274);
+  /* Surfaces — sampled from the shipped WrongTrace panels: near-black navy
+     with enough blue separation for dense nested product chrome. */
+  --bg: oklch(12.5% 0.019 274);
+  --surface: oklch(16.2% 0.026 273);
+  --raised: oklch(20.2% 0.034 271);
   --overlay: var(--raised);
 
   /* Text */
@@ -28,12 +29,12 @@
   --faint: color-mix(in oklch, var(--muted) 95%, var(--bg));
 
   /* Accent + semantics */
-  --primary: oklch(72% 0.17 320);
-  --accent: oklch(69% 0.2 353);
-  --success: oklch(72% 0.17 150);
+  --primary: oklch(68% 0.2 282);
+  --accent: oklch(76% 0.15 204);
+  --success: oklch(75% 0.17 160);
   --warning: oklch(78% 0.15 80);
   --danger: oklch(66% 0.2 25);
-  --line: oklch(28% 0.018 265);
+  --line: oklch(27% 0.036 270);
   --line-strong: color-mix(in oklch, var(--line) 60%, var(--fg));
   --ring: oklch(72% 0.18 200);
   --wrongstack-orange: #fd9f02;
@@ -52,9 +53,9 @@
   --mod-bg: color-mix(in oklch, var(--warning) 12%, transparent);
 
   /* Decoration */
-  --grid-line: oklch(100% 0 0 / 0.035);
-  --grid-line-strong: oklch(100% 0 0 / 0.06);
-  --glow: 0 0 0 1px oklch(72% 0.18 200 / 0.25);
+  --grid-line: oklch(76% 0.08 275 / 0.035);
+  --grid-line-strong: oklch(76% 0.08 275 / 0.07);
+  --glow: 0 0 0 1px oklch(68% 0.2 282 / 0.32), 0 0 28px oklch(68% 0.2 282 / 0.12);
   --shadow-1: 0 1px 2px oklch(0% 0 0 / 0.4);
   --shadow-2: 0 2px 8px oklch(0% 0 0 / 0.5);
   --shadow-3: 0 8px 24px oklch(0% 0 0 / 0.6);
@@ -105,8 +106,8 @@
      lighter, so the muted share is higher here. */
   --faint: color-mix(in oklch, var(--muted) 94%, var(--bg));
 
-  --primary: oklch(47.7% 0.17 308.5);
-  --accent: oklch(56.4% 0.225 1.7);
+  --primary: oklch(48% 0.19 282);
+  --accent: oklch(49% 0.13 215);
   /* The semantic tier has to clear 4.5:1 as small text on a near-white
      surface, which is a much darker green, amber and red than the dark
      theme uses. They are peers, so they sit at the same lightness. */
@@ -232,7 +233,9 @@
 
   body {
     background-color: var(--bg);
-    background-image: radial-gradient(circle at 50% -15%, color-mix(in oklch, var(--primary) 8%, transparent), transparent 32rem);
+    background-image:
+      radial-gradient(circle at 78% 4%, color-mix(in oklch, var(--accent) 7%, transparent), transparent 28rem),
+      radial-gradient(circle at 20% -12%, color-mix(in oklch, var(--primary) 10%, transparent), transparent 34rem);
     color: var(--fg);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "ss02", "cv02", "cv03";
@@ -352,6 +355,9 @@
 .brand-lockup:hover .brand-mark span:nth-child(1) { height: 85%; }
 .brand-lockup:hover .brand-mark span:nth-child(2) { height: 55%; }
 .brand-lockup:hover .brand-mark span:nth-child(3) { height: 100%; }
+.ecosystem-badge { display:none; align-items:center; min-height:1.7rem; padding-inline:.55rem; border:1px solid color-mix(in oklch,var(--accent) 42%,var(--line)); border-radius:999px; background:color-mix(in oklch,var(--accent) 7%,transparent); color:var(--accent); font:9px/1 var(--font-mono); letter-spacing:.03em; }
+.header-live { display:none; align-items:center; gap:.4rem; min-height:1.85rem; padding-inline:.55rem; border:1px solid var(--line); border-radius:4px; color:var(--muted); font:9px/1 var(--font-mono); text-transform:uppercase; }
+.header-live i { width:5px; height:5px; border-radius:50%; background:var(--success); box-shadow:0 0 7px var(--success); }
 
 .nav-link {
   position: relative;
@@ -528,7 +534,8 @@
   .footer-main > :first-child { grid-column: span 4; }
 }
 
-.hero-shell { position: relative; padding-top: clamp(2.75rem, 5.5vw, 5rem); background: radial-gradient(ellipse at 78% 25%, color-mix(in oklch, var(--primary) 5%, transparent), transparent 55%); }
+.hero-shell { position: relative; padding-top: clamp(2.75rem, 5.5vw, 5rem); background: radial-gradient(ellipse at 78% 24%, color-mix(in oklch, var(--accent) 6%, transparent), transparent 50%); }
+.hero-shell::before { position: absolute; inset: 0 0 auto; height: min(42rem, 78vh); pointer-events: none; background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px); background-size: 64px 64px; mask-image: linear-gradient(to bottom, black, transparent 86%); content: ""; opacity: .6; }
 .hero-layout { display: grid; gap: 3.5rem; align-items: center; }
 .hero-copy { position: relative; z-index: 2; }
 .hero-product { position: relative; min-width: 0; }
@@ -541,14 +548,22 @@
 .hero-facts span { font-family: var(--font-mono); font-size: 0.65rem; color: var(--primary); }
 .hero-facts strong { font-size: 0.78rem; font-weight: 500; color: var(--muted); }
 
-.hero-trace { overflow: hidden; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--surface); box-shadow: 0 12px 40px color-mix(in oklch, var(--bg) 70%, transparent); }
-.hero-trace__bar { display: flex; min-height: 3rem; flex-wrap: wrap; align-items: center; gap: 0.75rem; padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--line); background: var(--chrome); }
-.hero-trace__traffic { display: flex; gap: 4px; }
-.hero-trace__traffic i { width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); }
+.hero-trace { position: relative; overflow: hidden; border: 1px solid color-mix(in oklch, var(--primary) 42%, var(--line)); border-radius: 10px; background: var(--surface); box-shadow: 0 24px 80px color-mix(in oklch, var(--bg) 75%, transparent), 0 0 0 1px color-mix(in oklch, var(--accent) 8%, transparent); }
+.hero-trace::after { position: absolute; inset: 0 auto auto 0; width: 42%; height: 1px; background: linear-gradient(90deg, var(--accent), transparent); content: ""; }
+.hero-trace__bar { display: flex; min-height: 3.3rem; flex-wrap: wrap; align-items: center; gap: 0.65rem; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--line); background: color-mix(in oklch, var(--chrome) 90%, var(--primary)); }
+.hero-trace__appmark { display: grid; width: 1.9rem; height: 1.9rem; place-items: center; border: 1px solid color-mix(in oklch, var(--primary) 65%, var(--line)); border-radius: 6px; background: color-mix(in oklch, var(--primary) 14%, transparent); color: var(--primary); }
+.hero-trace__live,.hero-trace__agents { display: inline-flex; align-items: center; gap: .35rem; padding: .3rem .45rem; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font: 8px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+.hero-trace__live i { width: 5px; height: 5px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); }
+.hero-trace__metrics { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1px; border-bottom: 1px solid var(--line); background: var(--line); }
+.hero-trace__metrics > div { min-width: 0; padding: .65rem .75rem; background: color-mix(in oklch, var(--surface) 92%, var(--bg)); }
+.hero-trace__metrics span,.hero-trace__metrics small { display: block; overflow: hidden; color: var(--faint); font: 7px/1.35 var(--font-mono); letter-spacing: .08em; text-overflow: ellipsis; white-space: nowrap; }
+.hero-trace__metrics strong { display: block; margin-block: .3rem .15rem; color: var(--accent); font: 600 13px/1 var(--font-mono); }
+.hero-trace__metrics > div:nth-child(3) strong { color: var(--success); }
+.hero-trace__metrics > div:nth-child(4) strong { color: var(--warning); }
 .trace-control { display: inline-grid; min-width: 1.8rem; height: 1.8rem; place-items: center; border: 1px solid var(--line); border-radius: 2px; color: var(--muted); font-family: var(--font-mono); font-size: 0.65rem; transition: color 150ms ease, border-color 150ms ease; }
 .trace-control:hover { border-color: var(--line-strong); color: var(--fg); }
 .trace-control:disabled { cursor: not-allowed; opacity: 0.5; }
-.trace-control--wide { min-width: 3.75rem; padding-inline: 0.55rem; color: var(--primary); text-transform: uppercase; }
+.trace-control--wide { min-width: 3.75rem; padding-inline: 0.55rem; border-color: color-mix(in oklch, var(--primary) 48%, var(--line)); background: color-mix(in oklch, var(--primary) 10%, transparent); color: var(--primary); text-transform: uppercase; }
 .hero-trace__workspace { display: grid; min-height: 19rem; }
 .file-browser { display: flex; min-width: 0; flex-direction: column; border-bottom: 1px solid var(--line); background: color-mix(in oklch, var(--bg) 62%, var(--surface)); }
 .file-browser__head { display: flex; min-height: 2.4rem; align-items: center; justify-content: space-between; padding-inline: 0.75rem; border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.12em; color: var(--faint); }
@@ -584,10 +599,11 @@
 .trace-timeline__meta strong { color: var(--primary); font-weight: 500; }
 .trace-timeline__track { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.3rem; }
 .trace-timeline__track > div { display: grid; gap: 0.3rem; }
-.trace-timeline__track i { display: block; height: 3px; transform-origin: left; background: var(--primary); }
+.trace-timeline__track i { display: block; height: 3px; transform-origin: left; background: linear-gradient(90deg,var(--primary),var(--accent)); }
 .trace-timeline__track span { font-family: var(--font-mono); font-size: 0.5rem; color: var(--faint); }
 
 @media (min-width: 640px) {
+  .hero-trace__metrics { grid-template-columns: repeat(4,minmax(0,1fr)); }
   .hero-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .hero-facts li { padding-inline: 1rem; border-right: 1px solid var(--line); border-bottom: 0; }
   .hero-facts li:last-child { border-right: 0; }
@@ -604,6 +620,9 @@
   .hero-layout { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: clamp(2rem, 4vw, 4rem); }
 }
 }
+
+@media (min-width: 1180px) { .ecosystem-badge { display:inline-flex; } }
+@media (min-width: 1360px) { .header-live { display:inline-flex; } }
 
 @media (prefers-reduced-motion: reduce) {
   html {

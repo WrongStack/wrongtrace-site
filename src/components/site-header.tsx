@@ -37,6 +37,7 @@ export function SiteHeader() {
           </span>
           <span>{product.name}</span>
         </Link>
+        <span className="ecosystem-badge">WrongStack ecosystem</span>
 
         <nav aria-label="Primary" className="ml-auto hidden items-center lg:flex">
           {nav.map((item) => (
@@ -47,6 +48,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-3">
+          <span className="header-live"><i aria-hidden="true" /> Observer ready</span>
           <ThemeToggle />
           <a
             href={product.repo}

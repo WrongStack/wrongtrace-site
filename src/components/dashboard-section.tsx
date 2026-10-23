@@ -10,6 +10,7 @@ import {
   OverviewPanel,
 } from "@/components/dashboard-panels";
 import { Reveal } from "@/components/reveal";
+import { IconChurn } from "@/components/icons";
 import { Container, Section, SectionHead } from "@/components/primitives";
 import { dashboard, dashboardTabs, product } from "@/lib/content";
 import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
@@ -69,20 +70,15 @@ export function DashboardSection() {
         />
 
         <Reveal className="mt-12">
-          <div className="overflow-hidden rounded-lg border border-line bg-bg shadow-1">
+          <div className="dashboard-window">
             {/* Window chrome */}
-            <div className="flex items-center gap-3 border-b border-chrome-line bg-chrome px-4 py-2.5">
-              <span aria-hidden="true" className="flex gap-1.5">
-                <span className="size-2 rounded-full bg-line-strong" />
-                <span className="size-2 rounded-full bg-line-strong" />
-                <span className="size-2 rounded-full bg-line-strong" />
-              </span>
-              <span className="truncate rounded-md border border-line bg-code px-3 py-1 font-mono text-[11px] text-muted">
-                http://localhost:{product.dashboardPort}/{active}
-              </span>
-              <span className="ml-auto hidden shrink-0 font-mono text-[10px] tracking-[0.18em] text-faint uppercase sm:block">
-                4 of 10 views shown
-              </span>
+            <div className="dashboard-window__topbar">
+              <span className="dashboard-window__mark" aria-hidden="true"><IconChurn size={15} /></span>
+              <strong>WrongTrace</strong>
+              <span className="dashboard-window__workspace">WrongStack / Active</span>
+              <span className="dashboard-window__status"><i aria-hidden="true" /> Live</span>
+              <span className="dashboard-window__agents">3 agents</span>
+              <span className="dashboard-window__address">localhost:{product.dashboardPort}</span>
             </div>
 
             {/* Tabs */}
@@ -90,7 +86,7 @@ export function DashboardSection() {
               role="tablist"
               aria-label="Dashboard views"
               onKeyDown={onKeyDown}
-              className="flex flex-wrap border-b border-line"
+              className="dashboard-window__tabs"
             >
               {dashboardTabs.map((tab, index) => {
                 const isActive = tab.id === active;
@@ -107,19 +103,14 @@ export function DashboardSection() {
                     aria-controls="dashboard-panel"
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => setActive(tab.id)}
-                    className={`relative shrink-0 px-4 py-3 font-mono text-xs whitespace-nowrap transition-colors duration-150 ${
+                    className={`dashboard-window__tab ${
                       isActive
-                        ? "text-fg"
-                        : "text-muted hover:text-fg"
+                        ? "is-active"
+                        : ""
                     }`}
                   >
+                    <span aria-hidden="true" className="dashboard-window__tabdot" />
                     {tab.label}
-                    {isActive ? (
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-x-0 -bottom-px h-px bg-primary"
-                      />
-                    ) : null}
                   </button>
                 );
               })}
@@ -133,7 +124,7 @@ export function DashboardSection() {
               role="tabpanel"
               aria-labelledby={`tab-${active}`}
               tabIndex={0}
-              className="min-h-[26rem]"
+              className="dashboard-window__panel min-h-[26rem]"
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
