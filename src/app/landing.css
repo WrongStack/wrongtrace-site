@@ -1,0 +1,78 @@
+/* Shared marketing composition. Color stays in globals.css's semantic tokens. */
+@layer components {
+  .site-container {
+    width: 100%;
+    max-width: var(--layout-max);
+    margin-inline: auto;
+    padding-inline: var(--page-gutter);
+  }
+
+  .header-inner { display: flex; height: 5.25rem; align-items: center; gap: 1.25rem; }
+  .section-space { padding-block: var(--section-space); }
+  .section-head { display: grid; gap: 1.5rem 4rem; align-items: end; }
+  .section-head__label { color: var(--primary); font: 11px/1.5 var(--font-mono); letter-spacing: .13em; }
+  .section-head__title { margin-top: 1.25rem; font-size: var(--fs-headline); line-height: 1.1; font-weight: 500; letter-spacing: -.045em; text-wrap: balance; }
+  .section-head__title > span { display: block; }
+  .section-head__title .is-emphasis { color: var(--muted); }
+  .section-head__context { max-width: 32rem; color: var(--muted); font-size: 16px; line-height: 1.8; }
+  .section-head__aside { margin-top: 1rem; }
+  .section-head__detail { margin-top: .75rem; color: var(--faint); font: 10px/1.6 var(--font-mono); letter-spacing: .09em; }
+
+  .hero-eyebrow { display: flex; align-items: center; gap: .6rem; color: var(--muted); font: 10px/1.6 var(--font-mono); letter-spacing: .06em; }
+  .hero-eyebrow > span { width: 6px; height: 6px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 4px color-mix(in oklch, var(--success) 10%, transparent); }
+  .hero-title { margin-top: 1.7rem; font-size: var(--fs-display); line-height: 1.04; font-weight: 500; letter-spacing: -.06em; }
+  .hero-title > span { display: block; }
+  .hero-lede { max-width: 31rem; margin-top: 1.65rem; color: var(--muted); font-size: 16px; line-height: 1.85; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-block: 1.75rem 1.5rem; }
+  .hero-install-note { margin-top: .8rem; color: var(--faint); font-size: 12px; }
+
+  .install-command { min-width: 0; overflow: hidden; border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); }
+  .install-command__tabs { display: flex; align-items: center; gap: .5rem; padding-inline: .75rem; border-bottom: 1px solid var(--line); }
+  .install-command__tabs > button { position: relative; min-height: 44px; padding-inline: .5rem; color: var(--muted); font-size: 12px; transition: color var(--duration-base) ease; }
+  .install-command__tabs > button:hover { color: var(--fg); }
+  .install-command__tabs > button[aria-selected="true"] { color: var(--fg); }
+  .install-command__tabs > button[aria-selected="true"]::after { content: ""; position: absolute; inset: auto .5rem -1px; height: 2px; background: var(--primary); }
+  .install-command__shell { margin-left: auto; color: var(--faint); font: 10px var(--font-mono); }
+  .install-command__code { display: grid; min-height: 5.75rem; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: .65rem; padding: 1rem; }
+  .install-command__code > span { color: var(--primary); font: 12px/1.8 var(--font-mono); }
+  .install-command__code code { overflow-wrap: anywhere; color: var(--fg); font: 11px/1.9 var(--font-mono); }
+  .install-command__code button { margin-top: -.25rem; }
+
+  .trace-route { display: flex; align-items: center; padding: .5rem 1rem 1.5rem; }
+  .trace-route > div { display: grid; flex: 0 0 24%; justify-items: center; gap: .35rem; }
+  .trace-route__glyph { display: grid; width: 3rem; height: 3rem; place-items: center; border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--primary); font: 16px var(--font-mono); box-shadow: 0 5px 0 var(--raised); }
+  .trace-route strong { margin-top: .4rem; color: var(--fg); font-size: 12px; font-weight: 500; }
+  .trace-route small { color: var(--faint); font: 9px var(--font-mono); }
+  .trace-route__line { position: relative; flex: 1; height: 1px; margin-top: -2.5rem; background: var(--line-strong); }
+  .trace-route__line::after { content: ""; position: absolute; right: -1px; top: -2px; width: 5px; height: 5px; border-top: 1px solid var(--primary); border-right: 1px solid var(--primary); transform: rotate(45deg); }
+  .trace-attribution { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; padding: .7rem .85rem; border-bottom: 1px solid var(--line); color: var(--muted); font: 10px/1.6 var(--font-mono); }
+  .trace-attribution strong { color: var(--fg); font-weight: 500; }
+  .trace-attribution__delta { display: flex; gap: .5rem; }
+  .file-group { margin-bottom: .4rem; }
+  .file-group > p { overflow-wrap: anywhere; }
+
+  .install-layout { display: grid; gap: 2.5rem 5rem; margin-top: 3rem; }
+  .install-steps { border-top: 1px solid var(--line); }
+  .install-steps > li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1rem; padding-block: 1.25rem; border-bottom: 1px solid var(--line); }
+  .install-steps__number { color: var(--primary); font: 11px/1.8 var(--font-mono); }
+  .install-steps h3 { font-size: 14px; font-weight: 500; }
+  .install-steps p { color: var(--muted); font-size: 12px; line-height: 1.8; }
+  .install-steps__command { display: flex; align-items: center; justify-content: space-between; margin-top: .35rem; }
+  .install-steps__command code { color: var(--fg); font: 12px var(--font-mono); }
+
+  @media (min-width: 768px) {
+    .section-head { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); }
+    .section-head__context { justify-self: end; }
+    .install-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  }
+
+  @media (max-width: 767px) {
+    .header-inner { height: 4.5rem; gap: .5rem; }
+    .hero-title { font-size: clamp(2.5rem, 8.9vw, 4rem); }
+    .hero-lede { font-size: 15px; }
+    .hero-eyebrow { font-size: 9px; }
+    .hero-actions > a { padding-inline: .85rem; font-size: 12px; }
+    .section-head__context { max-width: 36rem; }
+    .trace-route { padding-top: 0; }
+  }
+}

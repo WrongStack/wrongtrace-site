@@ -23,6 +23,7 @@ export async function generateMetadata({
   return {
     title: section.title,
     description: section.summary,
+    alternates: { canonical: `/docs/${section.slug}/` },
   };
 }
 

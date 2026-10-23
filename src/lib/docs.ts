@@ -56,10 +56,16 @@ export const docSections: DocSection[] = [
         type: "steps",
         items: [
           {
-            title: "Install the binary",
-            body: "Installs wrongtrace from source onto your GOPATH.",
+            title: "Install on Linux or macOS",
+            body: "Downloads the latest published binary, verifies its checksum when available, and installs it to ~/.local/bin.",
             command: product.install,
-            note: "Requires Go 1.25 or newer.",
+            note: "Supports Linux x64 and macOS on Apple Silicon or Intel. The installer adds its directory to your shell PATH when needed.",
+          },
+          {
+            title: "Install on Windows",
+            body: "Downloads the Windows release into your local application directory and adds it to your user PATH without administrator access.",
+            command: product.installPowerShell,
+            note: "Run in Windows PowerShell. The default destination is %LOCALAPPDATA%\\Programs\\WrongTrace.",
           },
           {
             title: "Initialize the workspace",

@@ -32,7 +32,7 @@ export function Container({
   className?: string;
 }) {
   return (
-    <div className={`mx-auto w-full max-w-6xl px-5 sm:px-8 ${className}`}>
+    <div className={`site-container ${className}`}>
       {children}
     </div>
   );
@@ -67,25 +67,19 @@ export function SectionHead({
   className = "",
 }: SectionHeadProps) {
   return (
-    <div className={`grid gap-8 md:grid-cols-12 md:items-end ${className}`}>
-      <div className="md:col-span-7">
-        {kicker ? <Kicker>{kicker}</Kicker> : null}
-        <p className="font-mono text-xs tracking-[0.22em] text-primary uppercase">
-          {label}
-        </p>
-        <h2 className="mt-5 text-headline leading-[1.08] font-semibold tracking-tight text-balance text-fg">
-          <span className="block">{headline[0]}</span>{" "}
-          <span className={emphasis ? "block italic" : "block"}>{headline[1]}</span>
+    <div className={`section-head ${className}`}>
+      <div>
+        <p className="section-head__label">{label}</p>
+        <h2 className="section-head__title">
+          <span>{headline[0]}</span>{" "}
+          <span className={emphasis ? "is-emphasis" : ""}>{headline[1]}</span>
         </h2>
-        {sub ? (
-          <p className="mt-5 max-w-xl text-lede leading-relaxed text-pretty text-muted">
-            {sub}
-          </p>
-        ) : null}
       </div>
-      {aside ? (
-        <div className="md:col-span-5 md:justify-self-end">{aside}</div>
-      ) : null}
+      <div className="section-head__context">
+        {sub ? <p>{sub}</p> : null}
+        {aside ? <div className="section-head__aside">{aside}</div> : null}
+        {kicker ? <p className="section-head__detail">{kicker}</p> : null}
+      </div>
     </div>
   );
 }
@@ -119,7 +113,7 @@ type ActionProps = {
 };
 
 const actionBase =
-  "inline-flex items-center justify-center gap-2 rounded-md border px-4 py-2.5 text-sm font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "inline-flex min-h-12 items-center justify-center gap-2 rounded-md border px-5 py-3 text-sm font-medium transition-[color,background-color,border-color,transform,translate,box-shadow] duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const actionVariants = {
   primary:

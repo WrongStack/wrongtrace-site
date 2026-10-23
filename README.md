@@ -28,13 +28,15 @@ TypeScript stays on 5.x on purpose. `eslint-config-next@16.4.2` pulls in
 `typescript >=4.8.4 <6.1.0` — a 7.x bump would break the install.
 
 Next.js, React, React DOM and Motion are the only runtime dependencies; the
-rest are build-time tools. Fonts are self-hosted through `next/font` (Inter for
-prose, JetBrains Mono for code and metrics).
+rest are build-time tools. Fonts are self-hosted through `next/font` (Space
+Grotesk for prose, JetBrains Mono for code and metrics).
 
 ## Getting started
 
 The project targets Node 24, pinned in `.nvmrc`. CI reads that same file, so a
-local run and the hosted build cannot drift apart unnoticed.
+local run and the hosted build cannot drift apart unnoticed. npm and
+`package-lock.json` are authoritative for release builds; use `npm ci` for a
+reproducible installation. The optional pnpm files support existing local setups.
 
 ```powershell
 nvm use               # reads .nvmrc
@@ -59,12 +61,29 @@ $env:NEXT_PUBLIC_SITE_URL = "https://your-domain.example"
 
 `public/CNAME` holds the custom domain, so it travels with the build output.
 
-The DNS record for `wrongtrace.oxog.dev` has to point at whatever actually
-serves this site. One thing to know before pointing it anywhere: the site is a
-Next.js **server**, not a static export. `next.config.ts` sets no
-`output: "export"`, and the Open Graph route runs on Node at request time
-while reading its fonts from disk. GitHub Pages cannot run it, so the CNAME
-has to target a host that can — Cloudflare Workers via OpenNext, or Vercel.
+The site is a GitHub Pages **static export**. `npm run build` writes the complete
+site to `out/`; no Next.js server, image optimizer or runtime filesystem access
+is required. `trailingSlash: true` exports documentation routes as directory
+indexes so direct visits and reloads work on a plain static host. The OG PNG,
+robots and sitemap routes are generated at build time. `public/.nojekyll`
+preserves `_next` assets, and `public/CNAME` preserves `wrongtrace.oxog.dev`.
+The npm `postbuild` step repairs Windows-shaped Next 16.4 segment filenames
+without modifying `node_modules`, disabling prefetch or requiring server rewrites;
+it is a no-op when the exporter already emitted the browser-requested flat names.
+
+When publication is authorized, the repository's Pages source must be **GitHub
+Actions**, the custom domain must be `wrongtrace.oxog.dev`, and the DNS CNAME for
+`wrongtrace` must target `wrongstack.github.io`. GitHub must finish domain/TLS
+validation before HTTPS can be considered ready. These remote settings are not
+changed by a local build. A custom domain serves at `/`; do not add a
+`/wrongtrace-site` base path or asset prefix.
+
+The existing `.github/workflows/ci.yml` checks every push and pull request.
+After typecheck, lint, static build and artifact tests pass, only a `master`
+push or a manual run on `master` uploads `out/` and deploys that exact artifact.
+PRs and other branches cannot deploy. Publishing uses the `github-pages`
+environment, isolated `pages: write` / `id-token: write` permissions and
+serialized deployments. Preparing this workflow does not execute it.
 
 ## Checks
 
@@ -72,12 +91,27 @@ has to target a host that can — Cloudflare Workers via OpenNext, or Vercel.
 npm run typecheck    # tsc --noEmit
 npm run lint         # eslint .
 npm run build        # next build
-npm start            # serve the production build
+python tests/export_finalize_test.py  # finalizer fixtures, Python standard library
+python tests/static_export_test.py    # validate actual out/ artifact
+python -m http.server 3000 --bind 127.0.0.1 --directory out  # local preview
 ```
 
-The first three also run on every push and pull request, in
-`.github/workflows/ci.yml`, against a clean `npm ci` on the Node version
-pinned in `.nvmrc`.
+CI runs these checks plus `node --test tests/frontend_units.test.ts` and the
+browser suite against the exported artifact on every push and pull request.
+Browser checks use Python Playwright pinned to `1.64.1` in the workflow, one
+Chromium instance and sequential contexts. No failed gate is ignored. Only the
+verified artifact can advance to the master-only Pages deployment.
+
+For browser regression checks against the static preview (in another terminal):
+
+```powershell
+$env:WRONGTRACE_SITE_URL = "http://127.0.0.1:3000"
+python tests/landing_smoke.py
+```
+
+The browser suite uses the existing Python Playwright installation and Chromium.
+`npm start` still maps to `next start`, which does not serve `output: "export"`;
+use the static preview command above instead.
 
 ## Where things live
 
@@ -89,7 +123,8 @@ pinned in `.nvmrc`.
 | `src/app/layout.tsx` | Document shell, fonts, metadata, theme script, skip link |
 | `src/app/not-found.tsx` | The 404 page, in the site's own dark-pro system |
 | `src/app/docs/` | The documentation route, its layout and its section pages |
-| `src/app/opengraph-image.tsx` | Generated 1200×630 Open Graph card (`next/og`) |
+| `src/app/opengraph-image.png/route.ts` | Build-time 1200×630 OG PNG with a static-host-friendly extension |
+| `src/lib/opengraph-image.tsx` | Existing OG card renderer (`next/og` and bundled fonts) |
 | `src/app/sitemap.ts` | `/sitemap.xml` |
 | `src/app/robots.ts` | `/robots.txt` |
 | `src/app/icon.svg` | Favicon |
@@ -147,7 +182,10 @@ pinned in `.nvmrc`.
 | `tsconfig.json` | TypeScript options and the `@/*` path alias |
 | `.nvmrc` | The Node version CI and contributors use |
 | `.env.example` | The one environment variable the site reads |
-| `.github/workflows/ci.yml` | Typecheck, lint and build on every push and pull request |
+| `.github/workflows/ci.yml` | Checks all pushes/PRs; deploys verified `out/` only from `master` |
+| `tests/static_export_test.py` | Checks Pages markers, routes, links/assets, segment payloads, metadata and OG PNG |
+| `scripts/finalize-static-export.mjs` | Adds browser-compatible flat segment paths when exporting on Windows |
+| `tests/export_finalize_test.py` | Finalizer idempotence, flat/nested exports and collision safety |
 
 ### Changing the copy
 

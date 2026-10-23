@@ -10,7 +10,7 @@ import { finePrint } from "@/lib/sections-fineprint";
  */
 export function FinePrintSection(): ReactElement {
   return (
-    <section id="fine-print" className="border-t border-line py-20 sm:py-24 lg:py-32">
+    <section id="fine-print" className="border-t border-line section-space">
       <Container>
         <SectionHead
           label={finePrint.label}

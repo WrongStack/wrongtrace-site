@@ -8,6 +8,7 @@ import { product } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Documentation",
+  alternates: { canonical: "/docs/" },
   description:
     "Guides and reference for WrongTrace: the quickstart, the CLI, the MCP server, configuration and the dashboard views.",
 };

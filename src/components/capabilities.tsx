@@ -37,7 +37,7 @@ export function CapabilitiesSection() {
   ];
 
   return (
-    <Section id="capabilities" className="py-20 sm:py-24 lg:py-32">
+    <Section id="capabilities" className="section-space">
       <Container>
         <SectionHead
           label={capabilitiesSection.label}

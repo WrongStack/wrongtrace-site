@@ -20,7 +20,10 @@ export const product = {
     "Converts automatically to Apache-2.0 on 2030-01-01. A commercial licence is required to offer it as a hosted or managed service.",
   repo: "https://github.com/wrongstack/wrongtrace",
   dashboardPort: "3444",
-  install: "go install github.com/wrongstack/wrongtrace/cmd/wrongtrace@latest",
+  install:
+    "curl -fsSL https://raw.githubusercontent.com/WrongStack/WrongTrace/master/install.sh | sh",
+  installPowerShell:
+    "irm https://raw.githubusercontent.com/WrongStack/WrongTrace/master/install.ps1 | iex",
 } as const;
 
 /* -------------------------------------------------------------------------- */
@@ -43,8 +46,8 @@ export const nav = [
 export const hero = {
   kicker: "Pure Go · v0.3.17 · BUSL-1.1",
   eyebrow: "AI-NATIVE CODE CHURN & AGENT OBSERVABILITY",
-  headline: ["See what your agent", "actually changed."],
-  lede: "WrongTrace watches your repository with Tree-sitter, correlates AST-level edits with the tool calls that caused them, and serves the whole picture from one Go binary — no database to run, no sidecar to wire up.",
+  headline: ["Every agent edit.", "A clear trace."],
+  lede: "See what your coding agents actually changed. WrongTrace connects every AST-level edit to the agent, model, and session behind it.",
   chips: [
     { index: "01", label: "Single Go binary" },
     { index: "02", label: "No database to run" },
@@ -465,14 +468,6 @@ export const footer = {
       ],
     },
     {
-      title: "Ecosystem",
-      links: [
-        { label: "WrongStack", href: "https://github.com/wrongstack/wrongstack" },
-        { label: "CobaltDB", href: "https://cobaltdb.dev" },
-        { label: "NothingDNS", href: "https://nothingdns.com" },
-      ],
-    },
-    {
       title: "Project",
       links: [
         { label: "Source", href: product.repo },
@@ -599,6 +594,7 @@ export const cliCommands = [
   { command: "wrongtrace export", description: "Export telemetry and code churn records to JSON." },
   { command: "wrongtrace report", description: "Generate an executive Markdown, HTML or JSON observability report." },
   { command: "wrongtrace status", description: "Print a summary of the database path, monitored repo, totals and active models." },
+  { command: "wrongtrace update", description: "Update the current binary to the latest GitHub release, with checksum verification." },
 ] as const;
 
 export const mcpTools = [

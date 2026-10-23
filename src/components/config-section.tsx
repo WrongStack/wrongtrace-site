@@ -2,20 +2,13 @@ import { CopyButton } from "@/components/copy-button";
 import { Container, SectionHead } from "@/components/primitives";
 import { Reveal } from "@/components/reveal";
 import { config } from "@/lib/content";
-
-/** Builds the shell snippet that exports every variable that has a value. */
-function buildEnvSnippet(): string {
-  return config.vars
-    .filter((entry) => entry.value !== "unset")
-    .map((entry) => `export ${entry.name}=${entry.value}`)
-    .join("\n");
-}
+import { buildEnvSnippet } from "@/lib/env-snippet";
 
 export function ConfigSection() {
-  const snippet = buildEnvSnippet();
+  const snippet = buildEnvSnippet(config.vars);
 
   return (
-    <section id="config" className="py-20 sm:py-24 lg:py-32 bg-surface/40">
+    <section id="config" className="section-space bg-surface/40">
       <Container>
         <SectionHead
           label={config.label}
@@ -39,7 +32,7 @@ export function ConfigSection() {
             {config.vars.map((entry) => (
               <div
                 key={entry.name}
-                className="grid gap-x-8 gap-y-2 border-b border-line px-5 py-4 last:border-b-0 sm:grid-cols-[minmax(0,22rem)_auto_minmax(0,1fr)] sm:items-baseline"
+                className="grid gap-x-8 gap-y-2 border-b border-line px-5 py-4 last:border-b-0 xl:grid-cols-[minmax(0,21rem)_8rem_minmax(0,1fr)] xl:items-baseline"
               >
                 <code className="font-mono text-sm text-fg break-words">
                   {entry.name}

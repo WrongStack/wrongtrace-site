@@ -78,7 +78,7 @@ export function PipelineSection() {
   ];
 
   return (
-    <Section id="pipeline" className="bg-surface/40 py-20 sm:py-24 lg:py-32">
+    <Section id="pipeline" className="bg-surface/40 section-space">
       <Container>
         <SectionHead
           label={pipelineSection.label}

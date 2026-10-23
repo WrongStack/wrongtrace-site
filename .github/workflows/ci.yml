@@ -3,21 +3,28 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
-# The workflow only needs to read the repository.
+# Checks cannot publish; only the separate deploy job gets write permissions.
 permissions:
   contents: read
 
-# A newer push to the same branch supersedes the run in flight.
+# Supersede PR checks, but never cancel a publishing run halfway through.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   verify:
     name: Typecheck, lint and build
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: read
+    env:
+      NEXT_PUBLIC_SITE_URL: https://wrongtrace.oxog.dev
+      PLAYWRIGHT_VERSION: "1.64.1"
 
     steps:
       - name: Check out the repository
@@ -42,5 +49,61 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Build
+      - name: Frontend unit regressions
+        run: node --test tests/frontend_units.test.ts
+
+      - name: Build static site
         run: npm run build
+
+      - name: Validate the exported Pages artifact
+        run: |
+          python3 tests/export_finalize_test.py
+          python3 tests/static_export_test.py
+
+      - name: Browser smoke against the exported artifact
+        env:
+          WRONGTRACE_SITE_URL: http://127.0.0.1:4173
+        run: |
+          python3 -m venv "$RUNNER_TEMP/pw"
+          "$RUNNER_TEMP/pw/bin/python" -m pip install --disable-pip-version-check "playwright==${PLAYWRIGHT_VERSION}"
+          "$RUNNER_TEMP/pw/bin/python" -m playwright install --with-deps chromium
+          "$RUNNER_TEMP/pw/bin/python" -m http.server 4173 --bind 127.0.0.1 --directory out &
+          SERVER_PID=$!
+          trap 'kill "${SERVER_PID}"' EXIT
+          for attempt in $(seq 1 60); do
+            if curl -fsS -o /dev/null "$WRONGTRACE_SITE_URL/"; then break; fi
+            sleep 0.25
+          done
+          curl -fsS -o /dev/null "$WRONGTRACE_SITE_URL/"
+          "$RUNNER_TEMP/pw/bin/python" tests/landing_smoke.py
+
+      - name: Configure Pages
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        uses: actions/configure-pages@v6.0.0
+
+      - name: Upload the verified static site
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: out
+          include-hidden-files: true
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the verified artifact
+        id: deployment
+        uses: actions/deploy-pages@v5.0.1

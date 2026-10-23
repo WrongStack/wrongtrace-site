@@ -2,7 +2,9 @@ import type { MetadataRoute } from "next";
 
 import { SITE_URL } from "@/lib/site";
 
-/** Served at /sitemap.xml. The site is a single route today. */
+export const dynamic = "force-static";
+
+/** Exported at /sitemap.xml. */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {

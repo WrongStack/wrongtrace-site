@@ -4,7 +4,7 @@ import { problem } from "@/lib/content";
 
 export function ProblemSection() {
   return (
-    <Section id="problem" className="py-20 sm:py-24 lg:py-32">
+    <Section id="problem" className="section-space">
       <Container>
         <SectionHead
           label={problem.label}
@@ -64,8 +64,8 @@ export function ProblemSection() {
 
           <ul className="grid gap-px overflow-hidden rounded-lg border border-line bg-line lg:col-span-7">
             {problem.points.map((point, index) => (
-              <Reveal key={point.title} delay={index * 0.06}>
-                <li className="h-full bg-bg p-6 sm:p-7">
+              <li key={point.title} className="h-full bg-bg p-6 sm:p-7">
+                <Reveal delay={index * 0.06}>
                   <div className="flex items-baseline gap-4">
                     <span className="font-mono text-xs text-primary tnum">
                       {String(index + 1).padStart(2, "0")}
@@ -77,8 +77,8 @@ export function ProblemSection() {
                   <p className="mt-3 pl-9 text-sm leading-relaxed text-muted">
                     {point.body}
                   </p>
-                </li>
-              </Reveal>
+                </Reveal>
+              </li>
             ))}
           </ul>
         </div>

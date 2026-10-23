@@ -19,7 +19,7 @@ export function RunModesSection() {
   const label = runModes.label.replace(/\s*\/\s*/, " · ");
 
   return (
-    <Section id="run-modes" className="py-20 sm:py-24 lg:py-32">
+    <Section id="run-modes" className="section-space">
       <Container>
         <SectionHead label={label} headline={headline} emphasis sub={runModes.sub} />
 

@@ -2,7 +2,9 @@ import type { MetadataRoute } from "next";
 
 import { SITE_URL } from "@/lib/site";
 
-/** Served at /robots.txt. */
+export const dynamic = "force-static";
+
+/** Exported at /robots.txt. */
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [

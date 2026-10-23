@@ -55,7 +55,7 @@ export function MetricStrip() {
           </dl>
         </Reveal>
 
-        <p className="mt-6 max-w-3xl text-xs leading-relaxed text-muted">
+        <p className="mt-6 max-w-[72ch] text-xs leading-relaxed text-muted">
           {metricFootnote}{" "}
           <a
             href={metricFootnoteLink.href}

@@ -12,7 +12,7 @@ import { faqSection } from "@/lib/sections-faq";
  */
 export function FaqSection(): ReactElement {
   return (
-    <section id="faq" className="py-20 sm:py-24 lg:py-32">
+    <section id="faq" className="section-space">
       <Container>
         <SectionHead
           label={faqSection.label}
@@ -22,9 +22,9 @@ export function FaqSection(): ReactElement {
           sub={faqSection.sub}
         />
 
-        <ol className="mt-14 max-w-3xl">
+        <ol className="mt-12 grid gap-x-16 md:grid-cols-2">
           {faqSection.items.map((item, index) => (
-            <li key={item.id} className="border-t border-line py-8 first:border-t-0 first:pt-0">
+            <li key={item.id} className="border-t border-line py-7">
               <Reveal delay={index * 0.04}>
                 <h3 className="flex gap-4 text-lg font-medium text-balance text-fg">
                   <span

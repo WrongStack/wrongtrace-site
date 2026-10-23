@@ -54,7 +54,7 @@ export function DashboardSection() {
   }
 
   return (
-    <Section id="dashboard" className="py-20 sm:py-24 lg:py-32">
+    <Section id="dashboard" className="section-space">
       <Container>
         <SectionHead
           label={dashboard.label}
@@ -90,7 +90,7 @@ export function DashboardSection() {
               role="tablist"
               aria-label="Dashboard views"
               onKeyDown={onKeyDown}
-              className="flex overflow-x-auto border-b border-line"
+              className="flex flex-wrap border-b border-line"
             >
               {dashboardTabs.map((tab, index) => {
                 const isActive = tab.id === active;
@@ -104,7 +104,7 @@ export function DashboardSection() {
                     role="tab"
                     id={`tab-${tab.id}`}
                     aria-selected={isActive}
-                    aria-controls={`panel-${tab.id}`}
+                    aria-controls="dashboard-panel"
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => setActive(tab.id)}
                     className={`relative shrink-0 px-4 py-3 font-mono text-xs whitespace-nowrap transition-colors duration-150 ${
@@ -125,15 +125,19 @@ export function DashboardSection() {
               })}
             </div>
 
-            {/* Panels */}
-            <div className="min-h-[26rem]">
+            {/* Panels. Only the selected panel is mounted, so the tabpanel
+                itself stays on the tab strip and every tab's aria-controls
+                resolves to an element that exists. */}
+            <div
+              id="dashboard-panel"
+              role="tabpanel"
+              aria-labelledby={`tab-${active}`}
+              tabIndex={0}
+              className="min-h-[26rem]"
+            >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={active}
-                  id={`panel-${active}`}
-                  role="tabpanel"
-                  aria-labelledby={`tab-${active}`}
-                  tabIndex={0}
                   initial={reduce ? false : { opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={reduce ? undefined : { opacity: 0 }}
@@ -149,7 +153,7 @@ export function DashboardSection() {
           </div>
         </Reveal>
 
-        <p className="mt-5 text-sm leading-relaxed text-pretty text-muted">
+        <p className="mt-5 max-w-[72ch] text-sm leading-relaxed text-pretty text-muted">
           A redrawn impression of the built-in dashboard — illustrative numbers,
           real layout. Switch tabs to see the four views behind this one.
         </p>

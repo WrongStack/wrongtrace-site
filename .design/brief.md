@@ -1,4 +1,49 @@
-# WrongTrace — website design brief (revision 2)
+# WrongTrace — website design brief (revision 3)
+
+## Current pass — family coherence (2026-10-20)
+
+This section overrides older layout details below. Audience: developers and leads
+who need to attribute agent edits. Primary task: understand AST-level attribution,
+choose Windows PowerShell or macOS/Linux, copy the installer, then initialize.
+
+Direction: **trace instrument**. A wide, quiet editorial page with a concrete
+agent → AST → attributed diff illustration, readable product chrome, and a
+consistent violet trace accent. Keep Space Grotesk + JetBrains Mono and existing
+semantic light/dark tokens, not a new kit or dependency. Display 56–72px desktop;
+section titles ~42px, body 15–16px; container 1344px at 1440. Compact 80–100px
+section rhythm replaces repetitive 128px padding and stacked double kickers.
+
+Regions: `hero-split` for claim + interactive instrument (reject decorative
+`hero-editorial`, because the product must be demonstrated); `feature-tabbed`
+for dashboard; `row-list` for capabilities; `cta-band` for the closing installer;
+`site-footer` for navigation. Preserve CobaltDB-style appearance previews.
+
+References (adaptation, not literal clone): existing oxog.net/nothingdns.com/
+cobaltdb.dev records at 1440/768/390; CacheStorm and WireRift newly measured at
+1440/390 on 2026-10-20. CacheStorm: 96px section padding, 14px/1.9 body, ~50px
+primary action, -0.06em display tracking → apply as spacious but compact product
+composition, not a card around every paragraph. WireRift: 1344px container,
+72px section padding, 86px desktop header, 200ms control transitions → apply as
+aligned section edges and quiet interactive chrome. Neither product's blue or
+amber identity replaces WrongTrace violet. Measurement sampled running motion;
+reference screenshots are recorded, but image viewing may be unavailable here.
+
+Asset policy: reuse installed fonts and the existing icon family; any new trace
+SVG is original explanatory diagram geometry, not a copied product illustration.
+All demo figures remain sample-labelled; no fabricated benchmarks or customers.
+
+Installation: both official commands must be reachable from hero AND closing
+CTA using one shared keyboard-operable platform chooser; never concatenate them.
+Footer order stays main → compact WrongStack band → footer → animated OXOGNET
+studio banner. No Ecosystem column, no `.oxog-pool`, no numbered OXOG section.
+
+Acceptance: coherent shared heading geometry across every section; hero headline
+and primary action reachable in the first mobile viewport; file selection changes
+the actual diff; both installer commands copy correctly; desktop/narrow/short
+viewports and both themes; keyboard, reduced-motion, no page overflow; typecheck,
+lint, bounded build. Do not claim aesthetic or accessibility certification from
+source checks alone.
+
 
 Supersedes revision 1. The site is being renewed end to end against a wider
 reference set: **oxog.net**, **ninedeploy.com**, **labyrinthdns.com** and
@@ -92,7 +137,7 @@ claims, "trusted by" logos, and any figure presented as if we measured it.
 10. **Configuration** — the real environment variables, with their defaults.
 11. **Install** — *rebuilt* as a tabbed terminal block.
 12. **FAQ** — *rebuilt* as numbered prose questions, not an accordion.
-13. **CTA + footer** — the closing command, the repo, and the licence.
+13. **CTA + footer** — the closing command, repo and licence, followed by a compact OXOGNET product pool anchored to the absolute bottom edge rather than a numbered content section.
 
 The `/docs` route stays as it is: five prerendered section pages, a sticky
 section list, and real facts from the README.
@@ -109,10 +154,29 @@ quiet.
 
 ## Design system
 
-Kit: **dark-pro**. Dark is primary; light is the secondary derivative. Deep
-blue-neutral base (not pure black), one electric cyan accent, restrained
-semantic neons, 1px hairline borders, monospace for IDs/metrics/code, Inter or
-Geist for prose. Density is a feature. Glow only on accent and active states.
+Source: **minimal-clarity**, adapted to the measured reference family. Dark is
+primary; light is the paper-like secondary theme. The product keeps its own
+purple/magenta trace identity rather than copying any reference palette.
+Space Grotesk carries display and body text; JetBrains Mono is reserved for
+IDs, metrics, code and trace lines. Controls use 1px hairlines, 2–7px radii,
+and 150–300ms transform/opacity motion.
+
+Reference measurements captured on 2026-10-20 at 1440, 768 and 390px:
+
+- `oxog-net`: 1328px container, 98px section padding, 300ms dominant motion,
+  3px dominant radius — apply as wide editorial containers, restrained corners,
+  sticky blurred navigation and responsive hover movement.
+- `nothingdns`: 14.9px body, monochrome surfaces, 89px sticky navigation and
+  200ms motion — apply as dense supporting copy and crisp inverted surfaces.
+- `labyrinthdns`: 4px spacing unit, 64.8px section padding, 4px dominant radius,
+  150ms motion — apply as disciplined rhythm and compact interactive chrome.
+- `cobaltdb`: 1344px container, 2px dominant radius, 200ms motion and two-column
+  desktop rhythm — apply as square product windows and asymmetric splits.
+
+The implementation borrows layout, rhythm and interaction strategy, not logos,
+copy or proprietary illustrations. Measurement caveat: oxog.net exposed many
+running animations, so individual transition states may have been sampled in
+flight.
 
 Type scale moves up for the renewal: the hero headline is the largest thing on
 the site, section headlines are two lines with the second line carrying the

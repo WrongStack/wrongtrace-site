@@ -43,7 +43,7 @@ export function ComparisonSection() {
   ];
 
   return (
-    <Section id="comparison" className="py-20 sm:py-24 lg:py-32">
+    <Section id="comparison" className="section-space">
       <Container>
         <SectionHead
           label={comparison.label}
@@ -128,7 +128,7 @@ export function ComparisonSection() {
         </Reveal>
 
         <Reveal>
-          <div className="mt-10 border-l-2 border-primary pl-5 sm:pl-6">
+          <div className="mt-10 max-w-[72ch] border-l-2 border-primary pl-5 sm:pl-6">
             <p className="text-base leading-relaxed text-pretty text-muted">
               <span className="font-mono text-sm text-primary">
                 {comparisonVerdict.lead}

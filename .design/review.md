@@ -1,5 +1,125 @@
 # WrongTrace site — design review
 
+## Release verification (2026-10-23)
+
+Preserved the existing visual direction; no new design system or redesign.
+Frontend specialist fixed shell-copy defaults, clipboard announcements, duplicated
+marquee semantics, theme-radio focus, file state labels, list structure and
+stable dashboard tab relationships. The release browser run then caught a real
+mobile regression: absolutely positioned file-state labels escaped their
+scrolling grid (593px document at 390px). Making `.file-row` the containing block
+restored 390px; the unchanged overflow assertions passed after rebuilding.
+Documentation canonicals also incorrectly inherited `/`; each docs route now
+exports its own URL, covered by a red-before-green artifact regression.
+
+Verified from a clean npm install in an isolated directory: typecheck, lint,
+production static build (two workers), 6 Node unit tests, 4 finalizer fixtures,
+7 artifact checks and 9 production-browser tests. Browser cases include both
+themes at 320/390/768/1024/1440, short viewports, keyboard installers, clipboard
+success/denial, client docs navigation/reloads, dashboard panels and reduced
+motion. Screenshots: `.design/qa/hero-{1440,390}-{light,dark}.png`.
+
+The rendered Design Studio inspector could not launch: its tool runtime lacks
+`@playwright/test`. Existing Python Playwright successfully executed the actual
+browser checks instead. PNG pixel review and a comprehensive contrast/assistive
+technology audit remain unverified; no visual-fidelity or accessibility
+certification is claimed. Historical observations below are not new evidence.
+
+## Visual-review handoff — BLOCKED (2026-10-20)
+
+Blocker: this session cannot inspect PNG pixels. Existing measurements and passing
+functional checks do not establish visual composition or reference fidelity.
+
+Saved inputs (project-relative):
+- WrongTrace: `.design/qa/hero-1440-light.png`, `hero-1440-dark.png`,
+  `hero-390-light.png`, `hero-390-dark.png` (all under `.design/qa/`).
+- CobaltDB: `.design/references/cobaltdb/1440.png` and `390.png`.
+- CacheStorm: `.design/references/cachestorm/1440.png` and `390.png`.
+- WireRift: `.design/references/wirerift/1440.png` and `390.png`.
+
+Acceptance checklist for an image-capable session:
+- [ ] Confirm actual pixel access; otherwise keep this review BLOCKED.
+- [ ] View corresponding desktop/mobile frames side by side; record viewport,
+  theme, artifact path and visible evidence for each hierarchy, spacing, type,
+  density or alignment finding. Label mismatched themes and stale captures.
+- [ ] Fix only evidenced differences, respecting `.design/brief.md`; preserve
+  distinct Windows/Unix installers, sample labels, themes and footer order.
+- [ ] After actual changes, recapture affected desktop/mobile/short states and
+  inspect both themes, keyboard focus, reduced motion and page overflow.
+- [ ] Run affected browser regressions with `python tests/landing_smoke.py`
+  against the current served revision; installer copy values, file selection,
+  theme/menu behavior and all responsive subcases must pass without skips.
+- [ ] For code changes, run `npm run typecheck`, `npm run lint`, and
+  `npm run build` sequentially (build workers capped at 2); require passing
+  results and changed hand-maintained files no longer than 800 lines.
+- [ ] Update this review with findings, fixes, final image paths, exact check
+  results and remaining limitations; mark visual review complete only after
+  inspecting the final images. Do not rerun completed checks merely to recheck
+  this blocker or add the handoff, and do not claim unexecuted checks passed.
+
+## Latest review — family coherence (2026-10-20)
+
+This section supersedes historical results below, which describe older revisions.
+Reference-style-researcher's earlier measurements were reused; the director added
+CacheStorm/WireRift measurements. Further delegation was unavailable because the
+session director had already closed spawning.
+
+### Implemented
+
+- Shared 1344px content width at 1440; shared 64–96px section rhythm and two-column
+  heading/context geometry rather than oversized stacked double kickers.
+- A product-specific split hero: explicit agent → AST → trace path, readable
+  inspector, compact selectable file list, and actual per-file diff updates.
+- One reusable platform installer in hero, installation section and closing CTA;
+  isolated Windows and Unix commands, roving keyboard tabs, exact copy values.
+- More compact FAQ columns, bounded prose lengths, mobile-safe configuration
+  rows and dashboard tabs; existing CobaltDB-style appearance previews retained.
+- Corrected light-theme WrongStack-link contrast and 320px parent-band overflow.
+- No pool/Ecosystem resurrection: WrongStack band → footer → OXOGNET studio.
+
+### Observed checks
+
+`python tests/landing_smoke.py`: six test methods passed, including ten
+width/theme subcases (1440/1024/768/390/320, light and dark), short viewports,
+clipboard values for both platforms at all three placements, actual diff
+selection, first/last step wrapping, theme focus/persistence/system changes,
+mobile menu, reduced motion, footer order and all six documentation routes.
+Five core methods also passed against the production build on port 3124 before
+that port was refused by the hosted browser tool; no further browser-tool call
+was made against that origin. No installer was executed. Screenshots retained
+at `.design/qa/hero-{1440,390}-{light,dark}.png`.
+
+`design_reference inspect` on the allowed dev origin http://localhost:3000/:
+final round **0 FAIL / 12 WARN**, across 1440/768/390. Resolved the initial
+contrast and dashboard edge failures. Remaining warnings are recorded here:
+
+- `type.body-size`: 14px supporting copy is intentional for this technical
+  family; primary hero/context prose remains 15–16px, not tiny display text.
+- `type.size-count`: small technical chrome/code/labels coexist with editorial
+  headings; flattening them to six sizes would remove useful hierarchy.
+- `type.heading-order`: the sampler reports no visible h1 after scrolling;
+  DOM/browser tests assert exactly one actual h1 on every route (not hidden).
+- `runtime.console-error`: the hosted inspector's proxy rejects Next's HMR
+  socket; local production browser tests report no console/page errors.
+
+### Fidelity and limits
+
+CobaltDB comparison artifact: `.design/references/cobaltdb/fidelity.md`.
+Automated axes: color 50%, type 0%, space 67%, shape 33%, layout 54%, motion
+100%; overall 0%. **This is not a literal-match claim.** Differences include
+WrongTrace violet vs CobaltDB blue, retained product sections, twelve-column
+implementation grids, and denser code chrome. The type sampler also treats
+`spaceGrotesk` and `Space Grotesk` as different strings and misses the real
+69.12px h1 (measured directly in the browser). Do not advertise this score as
+reference fidelity, or silently relabel a failed comparison as a pass.
+
+Screenshot files were captured but cannot be viewed by the model through this
+host's text-only read tool. No overall visual-craft rubric score, greyscale,
+squint or aesthetic certification is claimed; contrast over gradients/images
+and a complete assistive-technology audit remain unverified. The directly
+measured geometry, behavior and technical gates are the evidence for this pass.
+
+
 Inspected surface: the production build of the single route `/`, served by
 `next start` and driven in Chromium via Playwright. All numbers below are
 observed values from that run, not estimates.
@@ -338,3 +458,51 @@ These were **not** verified and are stated rather than implied:
   the same layout at a smaller width but is not the same test.
 - Screenshot review was programmatic. The rendered frames were never
   signed off by a human eye, so "it looks right" is not claimed.
+
+## Reference-line renewal — 2026-10-20
+
+The follow-up visual pass measured oxog.net, nothingdns.com, labyrinthdns.com
+and cobaltdb.dev with the same browser harness at 1440, 768 and 390px. It then
+adapted their shared 1320–1344px editorial container, sticky blurred navigation,
+Space Grotesk typography, compact 2–7px radii, hairline separators and
+150–300ms interaction timing to WrongTrace's own purple/magenta trace identity.
+No reference logo, illustration or product copy was copied.
+
+Implemented and rendered: track-style dark/light switch; animated mobile menu;
+pointer-following ambient glow for fine pointers; user-controlled hero trace
+with explicit SAMPLE DATA label and step counter; link/brand hover motion; and
+a bottom OXOGNET project area naming the four related public products.
+
+Verification: `npm run typecheck`, `npm run lint` and `npm run build` pass. A
+local Playwright production smoke run passed at 1440, 768 and 390px for one h1,
+no horizontal overflow, theme switching, mobile menu behavior, hero Play/Pause,
+OXOGNET visibility and zero console/page errors. Reduced-motion CSS remains
+active and the hero autoplay is disabled by default. The built-in
+`design_reference inspect` could not access the loopback origin because this
+project had not allow-listed it; the direct isolated Playwright run provides
+the rendered evidence instead.
+
+## Refinement — theme, hero and footer pool
+
+The numbered OXOGNET content section was removed. The related-product links now
+form a compact pool after the legal footer, visually anchored to the absolute
+bottom edge. The theme control now follows CobaltDB's interaction model: one
+44px trigger opens an appearance menu with System, Light and Dark choices;
+System follows `prefers-color-scheme` and explicit choices persist.
+
+The hero now uses the reference family's two-column editorial/product split.
+Its AST surface was rebuilt as an actual file browser with grouped paths,
+selectable file rows, state dots, a breadcrumb, parsed status and a compact
+session timeline rather than box-drawing tree characters.
+
+A production Playwright pass at 1440, 768 and 390px confirmed: no horizontal
+overflow; the numbered `13 · OXOGNET` label is absent; the bottom pool is
+visible; the appearance menu selects Light; the file browser selection changes
+at desktop/tablet widths; hero Play/Pause works; and the console is clean.
+
+After direct live-DOM inspection of CobaltDB, the appearance control was matched
+to its actual 44px System trigger and 328px dialog: three 90px visual theme
+previews, radio selection, check badges, status line and responsive fixed panel.
+The footer now also carries CobaltDB's actual OXOG studio banner composition,
+including the four-path 200×130 SVG mark, pink/purple stroke colors and the
+staggered six-second draw animation. Reduced motion disables the drawing.

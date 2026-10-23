@@ -1,4 +1,4 @@
-import { CopyButton } from "@/components/copy-button";
+import { InstallCommand } from "@/components/install-command";
 import { Action, Container } from "@/components/primitives";
 import { Reveal } from "@/components/reveal";
 import { cta } from "@/lib/content";
@@ -30,15 +30,7 @@ export function CtaSection() {
                   Install
                 </span>
 
-                <div className="mt-3 flex items-center gap-3 rounded-md border border-line bg-code px-4 py-3">
-                  <code className="min-w-0 flex-1 font-mono text-sm text-fg break-all">
-                    {cta.primary.command}
-                  </code>
-                  <CopyButton
-                    value={cta.primary.command}
-                    label={`Copy ${cta.primary.label} command`}
-                  />
-                </div>
+                <div className="mt-3"><InstallCommand label="Closing installer" /></div>
 
                 <div className="mt-4">
                   <Action

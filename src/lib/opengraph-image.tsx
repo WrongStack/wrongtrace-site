@@ -5,10 +5,6 @@ import { ImageResponse } from "next/og";
 
 import { hero, product } from "@/lib/content";
 
-export const runtime = "nodejs";
-
-export const alt = `${product.name} — ${hero.headline[0]} ${hero.headline[1]}`;
-
 export const size = { width: 1200, height: 630 };
 
 export const contentType = "image/png";
@@ -330,8 +326,8 @@ export default async function OpengraphImage() {
           <span style={{ fontFamily: MONO, fontSize: 22, color: PRIMARY }}>
             $
           </span>
-          <span style={{ fontFamily: MONO, fontSize: 22, color: FG }}>
-            go install github.com/wrongstack/wrongtrace/cmd/wrongtrace@latest
+          <span style={{ fontFamily: MONO, fontSize: 18, color: FG }}>
+            {product.install}
           </span>
         </div>
       </div>
